@@ -1,20 +1,28 @@
-const CACHE = 'thrawati-v1';
-const FILES = ['./index.html', './manifest.json'];
+// Service Worker - No Cache Strategy
+const CACHE = 'thrawati-v3';
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
   self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys =>
-    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-  ));
+  // حذف كل الـ caches القديمة
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.map(k => caches.delete(k)))
+    )
+  );
   self.clients.claim();
 });
 
 self.addEventListener('fetch', e => {
+  // Supabase requests - دايماً من النت مش من الـ cache
+  if (e.request.url.includes('supabase.co')) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+  // باقي الملفات - network first
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });
