@@ -258,22 +258,9 @@ async function sbGet(table) {
 }
 
 async function sbSetting(key, value) {
-  // حاول Update الأول، لو مفيش سجل اعمل Insert
-  const check = await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}`, {headers: H});
-  const rows = await check.json();
-  if (rows.length > 0) {
-    await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}`, {
-      method: 'PATCH',
-      headers: H,
-      body: JSON.stringify({value})
-    });
-  } else {
-    await fetch(`${SB_URL}/rest/v1/settings`, {
-      method: 'POST',
-      headers: H,
-      body: JSON.stringify({key, value})
-    });
-  }
+  await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}`, {
+    method: 'PATCH', headers: H, body: JSON.stringify({value})
+  });
 }
 
 async function sbGetSetting(key) {
@@ -304,9 +291,20 @@ async function syncAll() {
   }
 }
 
+let rateTimer;
 async function saveRate() {
-  try { await sbSetting('dollar_rate', document.getElementById('dollarRate').value); }
-  catch(e) { console.error('Rate save error:', e); }
+  clearTimeout(rateTimer);
+  rateTimer = setTimeout(async () => {
+    try {
+      const val = document.getElementById('dollarRate').value;
+      // Use PATCH only (record already exists from SQL setup)
+      await fetch(`${SB_URL}/rest/v1/settings?key=eq.dollar_rate`, {
+        method: 'PATCH',
+        headers: H,
+        body: JSON.stringify({value: val})
+      });
+    } catch(e) { console.error('Rate save error:', e); }
+  }, 800);
 }
 
 async function addRow(t) {
