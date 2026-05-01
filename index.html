@@ -82,10 +82,12 @@ tr:hover td{background:#fdf9ff}
 .sal-table th:nth-child(2),.sal-table td:nth-child(2){width:22%;text-align:left;direction:ltr}
 .sal-table th:nth-child(3),.sal-table td:nth-child(3){width:35%;text-align:left;direction:ltr}
 .sal-table th:nth-child(4),.sal-table td:nth-child(4){width:8%;padding:0;text-align:center}
-.exp-table th:nth-child(1),.exp-table td:nth-child(1){width:44%}
-.exp-table th:nth-child(2),.exp-table td:nth-child(2){width:32%;text-align:left;direction:ltr}
-.exp-table th:nth-child(3),.exp-table td:nth-child(3){width:12%;text-align:center}
-.exp-table th:nth-child(4),.exp-table td:nth-child(4){width:12%;padding:0;text-align:center}
+.exp-table th:nth-child(1),.exp-table td:nth-child(1){width:26%}
+.exp-table th:nth-child(2),.exp-table td:nth-child(2){width:18%;text-align:left;direction:ltr}
+.exp-table th:nth-child(3),.exp-table td:nth-child(3){width:18%;text-align:left;direction:ltr}
+.exp-table th:nth-child(4),.exp-table td:nth-child(4){width:18%;text-align:left;direction:ltr}
+.exp-table th:nth-child(5),.exp-table td:nth-child(5){width:10%;text-align:center}
+.exp-table th:nth-child(6),.exp-table td:nth-child(6){width:10%;padding:0;text-align:center}
 .debt-table th:nth-child(1),.debt-table td:nth-child(1){width:44%}
 .debt-table th:nth-child(2),.debt-table td:nth-child(2){width:32%;text-align:left;direction:ltr}
 .debt-table th:nth-child(3),.debt-table td:nth-child(3){width:12%;text-align:center}
@@ -199,7 +201,7 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
     <div class="card-title" style="color:#b91d73">📊 بنود المصاريف</div>
     <span class="card-badge" id="exp-total-head" style="background:#fce7f3;color:#b91d73">0 EGP</span>
   </div>
-  <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ EGP</th><th>دُفع</th><th></th></tr></thead>
+  <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
   <tbody id="expenses-body"></tbody>
   <tr class="total-row"><td>الإجمالي</td><td class="computed" id="expenses-total" style="color:#b91d73">0 EGP</td><td></td><td></td></tr></table>
   <button class="btn-add" onclick="addRow('expenses')" style="border-color:#f9a8d4;color:#b91d73;background:#fff0f7">+ إضافة مصروف</button></div>
@@ -427,29 +429,35 @@ function rSal() {
 
 function rExp() {
   const tb=document.getElementById('expenses-body'); tb.innerHTML='';
-  let totalAll=0, spent=0;
+  let totalAll=0, totalPaid=0;
   D.expenses.forEach(r => {
-    totalAll+=(+r.amount);
-    if(r.paid) spent+=(+r.amount);
+    const amount = +r.amount || 0;
+    const paidAmount = +r.paid_amount || 0;
+    totalAll += amount;
+    totalPaid += paidAmount;
+    const remaining = amount - paidAmount;
+    const fullyPaid = r.paid || (paidAmount >= amount && amount > 0);
     const tr=document.createElement('tr');
-    if(r.paid) tr.classList.add('paid-row');
+    if(fullyPaid) tr.classList.add('paid-row');
     tr.innerHTML=`
       <td><input class="inp" value="${r.name||''}" onchange="D.expenses.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('expenses','${r.id}',{name:this.value})"></td>
-      <td><input class="inp" type="number" value="${+r.amount||0}" onchange="D.expenses.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('expenses','${r.id}',{amount:+this.value});renderAll()"></td>
-      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${r.paid?'checked':''} onchange="D.expenses.find(x=>x.id==='${r.id}').paid=this.checked;scheduleUpdate('expenses','${r.id}',{paid:this.checked});renderAll()" style="accent-color:#b91d73"></td>
+      <td><input class="inp" type="number" value="${amount}" onchange="D.expenses.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('expenses','${r.id}',{amount:+this.value});renderAll()"></td>
+      <td><input class="inp" type="number" value="${paidAmount}" placeholder="0" onchange="let v=+this.value;D.expenses.find(x=>x.id==='${r.id}').paid_amount=v;scheduleUpdate('expenses','${r.id}',{paid_amount:v});renderAll()" style="color:#b91d73;font-weight:700"></td>
+      <td class="computed" style="color:${remaining<=0?'#34c759':'#7c5cbf'}">${fmt(Math.max(0,remaining))}</td>
+      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="D.expenses.find(x=>x.id==='${r.id}').paid=this.checked;if(this.checked){D.expenses.find(x=>x.id==='${r.id}').paid_amount=${amount};}scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:#b91d73"></td>
       <td style="text-align:center"><button class="del-btn" onclick="delRow('expenses','${r.id}')">×</button></td>`;
     tb.appendChild(tr);
   });
-  const rem=totalAll-spent;
-  const pct=totalAll>0?Math.max(0,Math.min(100,Math.round(rem/totalAll*100))):100;
+  const totalRemaining = totalAll - totalPaid;
+  const pct = totalAll>0 ? Math.max(0,Math.min(100,Math.round(totalRemaining/totalAll*100))) : 100;
   document.getElementById('expenses-total').textContent=fmt(totalAll);
   document.getElementById('exp-total-head').textContent=fmt(totalAll);
   document.getElementById('exp-budget').textContent=fmt(totalAll);
-  document.getElementById('exp-spent').textContent=fmt(spent);
+  document.getElementById('exp-spent').textContent=fmt(totalPaid);
   document.getElementById('budget-bar').style.width=pct+'%';
   const remEl=document.getElementById('exp-remaining');
-  if(rem<=0){remEl.textContent='0 EGP';remEl.classList.add('warn');}
-  else{remEl.textContent=fmt(rem);remEl.classList.remove('warn');}
+  if(totalRemaining<=0){remEl.textContent='0 EGP';remEl.classList.add('warn');}
+  else{remEl.textContent=fmt(totalRemaining);remEl.classList.remove('warn');}
 }
 
 function rDebts() {
