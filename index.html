@@ -444,7 +444,7 @@ function rExp() {
       <td><input class="inp" type="number" value="${amount}" onchange="D.expenses.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('expenses','${r.id}',{amount:+this.value});renderAll()"></td>
       <td><input class="inp" type="number" value="${paidAmount}" placeholder="0" onchange="let v=+this.value;D.expenses.find(x=>x.id==='${r.id}').paid_amount=v;scheduleUpdate('expenses','${r.id}',{paid_amount:v});renderAll()" style="color:#b91d73;font-weight:700"></td>
       <td class="computed" style="color:${remaining<=0?'#34c759':'#7c5cbf'}">${fmt(Math.max(0,remaining))}</td>
-      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="D.expenses.find(x=>x.id==='${r.id}').paid=this.checked;if(this.checked){D.expenses.find(x=>x.id==='${r.id}').paid_amount=${amount};}scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:#b91d73"></td>
+      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="let row=D.expenses.find(x=>x.id==='${r.id}');row.paid=this.checked;row.paid_amount=this.checked?${amount}:0;scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:#b91d73"></td>
       <td style="text-align:center"><button class="del-btn" onclick="delRow('expenses','${r.id}')">×</button></td>`;
     tb.appendChild(tr);
   });
