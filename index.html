@@ -41,6 +41,56 @@ body{font-family:-apple-system,'Segoe UI',Arial,sans-serif;background:#f0f2f8;co
 .ni-s{background:linear-gradient(135deg,#11998e,#38ef7d)}
 .ni-e{background:linear-gradient(135deg,#f953c6,#b91d73)}
 .ni-dbt{background:linear-gradient(135deg,#f85032,#e73827)}
+.ni-inv{background:linear-gradient(135deg,#0f9b8e,#00d2ff)}
+.inv-hero{border-radius:18px;padding:22px 18px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(135deg,#0f9b8e,#00d2ff)}
+.inv-hero::before{content:'';position:absolute;top:-40px;left:-40px;width:160px;height:160px;background:rgba(255,255,255,.07);border-radius:50%}
+.inv-card{background:#fff;border-radius:14px;border:1px solid #eeeaf8;overflow:hidden;margin-bottom:12px}
+.inv-card-head{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid transparent;transition:border-color .2s;background:linear-gradient(135deg,rgba(15,155,142,.05),rgba(0,210,255,.04))}
+.inv-card-head.open{border-bottom-color:#e0f7f5}
+.inv-toggle{width:24px;height:24px;border-radius:50%;background:#e0f7f5;display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .25s;flex-shrink:0;color:#0f9b8e;font-weight:700}
+.inv-toggle.open{transform:rotate(180deg)}
+.inv-name-inp{border:none;background:transparent;font-size:15px;font-weight:700;color:#1a1a2e;flex:1;outline:none;min-width:0;direction:rtl;text-align:right}
+.inv-badge{background:#e0f7f5;color:#0f9b8e;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px;white-space:nowrap}
+.inv-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px;border-top:1px solid #f5fffe}
+.inv-summary-item{text-align:center;padding:8px;background:linear-gradient(135deg,rgba(15,155,142,.07),rgba(0,210,255,.04));border-radius:10px;border:1px solid #c8f0ee}
+.inv-summary-item .lbl{font-size:8px;color:#0f9b8e;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.inv-summary-item .val{font-size:18px;font-weight:900;color:#0a7a72;direction:ltr}
+.inv-body{display:none}
+.inv-body.open{display:block}
+.inv-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px;border-bottom:1px solid #f5f5f5}
+.inv-field{display:flex;flex-direction:column;gap:3px}
+.inv-field label{font-size:9px;color:#bbb;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+.inv-field input,.inv-field select{background:#f8f9fc;border:1px solid #e8eaf0;border-radius:7px;padding:6px 9px;font-size:12px;font-weight:600;color:#444;outline:none;direction:ltr;text-align:left;width:100%}
+.inv-field input:focus,.inv-field select:focus{border-color:#0f9b8e;background:#fff}
+.inv-field input.red{color:#e24b4a}
+.inv-totals-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #f0fffe;background:#fafffe}
+.inv-total-item{padding:8px 6px;text-align:center;border-left:1px solid #e8f8f6}
+.inv-total-item:last-child{border-left:none}
+.inv-total-item .lbl{font-size:8px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.inv-total-item .val{font-size:12px;font-weight:800;color:#0f9b8e;direction:ltr}
+.inv-partner-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid #f0fffe;background:#fafffe}
+.inv-partner-row label{font-size:12px;color:#555;flex:1}
+.inv-partner-detail{display:none;padding:10px 14px}
+.inv-partner-detail.show{display:block}
+.inv-breakdown{background:#e0f7f5;border-radius:10px;overflow:hidden;margin-top:8px}
+.inv-share-grid{display:grid;grid-template-columns:1fr 1fr}
+.inv-share-cell{padding:10px 12px;border-left:1px solid #c0ede9}
+.inv-share-cell:last-child{border-left:none}
+.inv-share-cell .lbl{font-size:8px;color:#0f9b8e;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.inv-share-cell .row{font-size:11px;color:#555;margin-bottom:3px}
+.inv-share-cell .row strong{direction:ltr;display:inline-block;font-size:12px}
+.inv-add-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin:14px;padding:12px;background:linear-gradient(135deg,rgba(15,155,142,.08),rgba(0,210,255,.08));border:1.5px dashed #0f9b8e;border-radius:12px;color:#0f9b8e;font-size:14px;font-weight:700;cursor:pointer}
+.due-card{background:#fff;border-radius:14px;border:1px solid #e0f7f5;overflow:hidden;margin-bottom:12px}
+.due-card-head{padding:10px 14px;background:linear-gradient(135deg,rgba(15,155,142,.08),rgba(0,210,255,.06));border-bottom:1px solid #e0f7f5;display:flex;justify-content:space-between;align-items:center}
+.due-card-head h3{font-size:12px;font-weight:700;color:#0f9b8e}
+.due-item{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid #f5fffe}
+.due-item:last-child{border-bottom:none}
+.due-item .name{font-size:12px;color:#444;font-weight:500}
+.due-item .sub{font-size:9px;color:#aaa;margin-top:1px}
+.due-item .amount{font-size:13px;font-weight:800;color:#0f9b8e;direction:ltr}
+.due-total{padding:9px 14px;background:#e0f7f5;display:flex;justify-content:space-between;align-items:center}
+.due-total .lbl{font-size:11px;font-weight:700;color:#0f9b8e}
+.due-total .val{font-size:15px;font-weight:900;color:#0f9b8e;direction:ltr}
 .page{display:none;padding:14px;max-width:700px;margin:0 auto;padding-bottom:calc(14px + env(safe-area-inset-bottom));animation:fi .2s ease}
 .page.active{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
@@ -148,6 +198,7 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
   <div class="nav-item" onclick="showTab('salaries',this)"><div class="nav-icon ni-s">💼</div><div class="nav-label">الرواتب</div></div>
   <div class="nav-item" onclick="showTab('expenses',this)"><div class="nav-icon ni-e">📊</div><div class="nav-label">المصاريف</div></div>
   <div class="nav-item" onclick="showTab('debts',this)"><div class="nav-icon ni-dbt">💸</div><div class="nav-label">الديون</div></div>
+  <div class="nav-item" onclick="showTab('investments',this)"><div class="nav-icon ni-inv">🏗️</div><div class="nav-label">استثماراتي</div></div>
 </div>
 
 <div id="tab-dashboard" class="page active">
@@ -219,6 +270,19 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
   <button class="btn-add" onclick="addRow('debts')" style="border-color:#fca5a5;color:#e24b4a;background:#fff5f5">+ إضافة</button></div>
 </div>
 
+<div id="tab-investments" class="page">
+  <div class="inv-hero">
+    <div style="font-size:11px;color:rgba(255,255,255,.65);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:6px">استثماراتي</div>
+    <div style="font-size:34px;font-weight:900;direction:ltr;text-align:right" id="inv-grand-total">0 EGP</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px">إجمالي قيمة الاستثمارات</div>
+  </div>
+  <div id="investments-list"></div>
+  <button class="inv-add-btn" onclick="addInvestment()">+ إضافة استثمار جديد</button>
+  <div style="font-size:13px;font-weight:700;color:#0f9b8e;margin:16px 0 10px;display:flex;align-items:center;gap:6px">
+    <span>📋</span> الأقساط المطالب بيها هذا الشهر
+  </div>
+  <div id="due-installments"></div>
+</div>
 <p class="save-note">البيانات محفوظة ومتزامنة على السحابة ☁️</p>
 
 <script>
@@ -271,17 +335,17 @@ async function sbGetSetting(key) {
   return j.length ? j[0].value : null;
 }
 
-let D = {banks:[], gold:[], salaries:[], expenses:[], debts:[]};
+let D = {banks:[], gold:[], salaries:[], expenses:[], debts:[], investments:[]};
 let timers = {};
 
 async function syncAll() {
   setDot('loading');
   try {
-    const [banks, gold, salaries, expenses, debts, rate] = await Promise.all([
+    const [banks, gold, salaries, expenses, debts, investments, rate] = await Promise.all([
       sbGet('banks'), sbGet('gold'), sbGet('salaries'),
-      sbGet('expenses'), sbGet('debts'), sbGetSetting('dollar_rate')
+      sbGet('expenses'), sbGet('debts'), sbGet('investments'), sbGetSetting('dollar_rate')
     ]);
-    D = {banks, gold, salaries, expenses, debts};
+    D = {banks, gold, salaries, expenses, debts, investments};
     if (rate) document.getElementById('dollarRate').value = rate;
     renderAll();
     setDot('ok');
@@ -485,7 +549,7 @@ const DIST=[
 
 function renderAll() {
   const banks=rBanks(), gold=rGold();
-  rSal(); rExp(); rDebts();
+  rSal(); rExp(); rDebts(); renderInvestments();
   const rate=getR(), net=banks+gold;
   document.getElementById('grand-total').textContent=fmt(net);
   document.getElementById('rate-tag').textContent='1 USD = '+rate.toFixed(2)+' EGP';
@@ -498,6 +562,208 @@ function renderAll() {
     const pct=Math.min(100,Math.round(x.v/mx*100)); const c=DIST[x.i];
     return `<div class="dist-item"><div class="dist-row"><span class="dist-lbl">${c.lbl}</span><span class="dist-val">${fmt(x.v)} <span class="dist-pct">(${pct}%)</span></span></div><div class="dist-bg"><div class="dist-bar" style="width:${pct}%;background:${c.bg}"></div></div></div>`;
   }).join('');
+}
+
+// ══════════════════════════════════════════
+// INVESTMENTS
+// ══════════════════════════════════════════
+function toggleInv(id) {
+  const card = document.getElementById('inv-'+id);
+  const body = card.querySelector('.inv-body');
+  const head = card.querySelector('.inv-card-head');
+  const tog  = card.querySelector('.inv-toggle');
+  const open = body.classList.toggle('open');
+  head.classList.toggle('open', open);
+  tog.classList.toggle('open', open);
+}
+
+async function addInvestment() {
+  setDot('loading');
+  try {
+    const row = await sb('POST', 'investments', {
+      name:'استثمار جديد', property_name:'', total_price:0, down_payment:0,
+      monthly_installment:0, quarterly_installment:0,
+      duration_months:0, start_date:'',
+      has_partner:false, partner_name:'', partner_pct:50, down_payer:'split'
+    });
+    const r = Array.isArray(row) ? row[0] : row;
+    if(r && r.id){ D.investments.push(r); renderInvestments(); }
+    setDot('ok');
+  } catch(e){ setDot('err'); toast('فشل الإضافة: '+e.message,'err'); }
+}
+
+async function delInvestment(id, e) {
+  e.stopPropagation();
+  setDot('loading');
+  try {
+    await sb('DELETE', 'investments', null, id);
+    D.investments = D.investments.filter(r=>r.id!==id);
+    renderInvestments();
+    setDot('ok');
+  } catch(e){ setDot('err'); toast('فشل الحذف: '+e.message,'err'); }
+}
+
+function getMonthsLeft(startDate, duration) {
+  if(!startDate || !duration) return null;
+  const start = new Date(startDate);
+  const now = new Date();
+  const paid = (now.getFullYear()-start.getFullYear())*12+(now.getMonth()-start.getMonth());
+  return Math.max(0, duration - paid);
+}
+
+function renderDueInstallments() {
+  const container = document.getElementById('due-installments');
+  const now = new Date();
+  const isQuarter = [0,3,6,9].includes(now.getMonth());
+  let mItems=[], qItems=[];
+  D.investments.forEach(r => {
+    const name = r.property_name || r.name || 'استثمار';
+    const monthly = +r.monthly_installment||0;
+    const quarterly = +r.quarterly_installment||0;
+    const pct = +r.partner_pct||0;
+    const myPct = r.has_partner ? (100-pct)/100 : 1;
+    if(monthly>0) mItems.push({name, val:monthly*myPct, hasP:r.has_partner, myPct:Math.round((1-pct/100)*100)});
+    if(quarterly>0 && isQuarter) qItems.push({name, val:quarterly*myPct, hasP:r.has_partner, myPct:Math.round((1-pct/100)*100)});
+  });
+  let html='';
+  if(!mItems.length && !qItems.length){
+    html='<div style="text-align:center;padding:20px;color:#aaa;font-size:13px">لا توجد أقساط مسجلة</div>';
+  }
+  if(mItems.length){
+    const tot=mItems.reduce((s,x)=>s+x.val,0);
+    html+=`<div class="due-card"><div class="due-card-head"><h3>📅 شهري</h3><span style="font-size:10px;color:#0f9b8e;font-weight:700">${now.toLocaleDateString('ar-EG',{month:'long',year:'numeric'})}</span></div>`;
+    mItems.forEach(x=>{html+=`<div class="due-item"><div><div class="name">${x.name}</div><div class="sub">${x.hasP?'نصيبي '+x.myPct+'%':'كامل القسط'}</div></div><div class="amount">${fmt(x.val)}</div></div>`;});
+    html+=`<div class="due-total"><span class="lbl">الإجمالي الشهري</span><span class="val">${fmt(tot)}</span></div></div>`;
+  }
+  if(qItems.length){
+    const tot=qItems.reduce((s,x)=>s+x.val,0);
+    html+=`<div class="due-card" style="border-color:#fde8b0"><div class="due-card-head" style="background:rgba(247,151,30,.06);border-bottom-color:#fde8b0"><h3 style="color:#c77d00">📆 ربعي</h3></div>`;
+    qItems.forEach(x=>{html+=`<div class="due-item"><div><div class="name">${x.name}</div><div class="sub">${x.hasP?'نصيبي '+x.myPct+'%':'كامل القسط'}</div></div><div class="amount" style="color:#c77d00">${fmt(x.val)}</div></div>`;});
+    html+=`<div class="due-total" style="background:#fef3d0"><span class="lbl" style="color:#c77d00">الإجمالي الربعي</span><span class="val" style="color:#c77d00">${fmt(tot)}</span></div></div>`;
+  }
+  container.innerHTML=html;
+}
+
+function renderInvestments() {
+  const container = document.getElementById('investments-list');
+  container.innerHTML = '';
+  let grandTotal = 0;
+
+  D.investments.forEach(r => {
+    const total    = +r.total_price||0;
+    const down     = +r.down_payment||0;
+    const monthly  = +r.monthly_installment||0;
+    const quarterly= +r.quarterly_installment||0;
+    const duration = +r.duration_months||0;
+    const startDate= r.start_date||'';
+    const partnerPct=+r.partner_pct||0;
+    const myPct    = 100-partnerPct;
+    const remaining= total-down;
+    const monthsLeft=getMonthsLeft(startDate,duration);
+    grandTotal += total;
+
+    let myDown = r.down_payer==='partner'?0:r.down_payer==='split'?down*myPct/100:down;
+    const myMonthly  = monthly*myPct/100;
+    const myQuarterly= quarterly*myPct/100;
+
+    const div = document.createElement('div');
+    div.className = 'inv-card';
+    div.id = 'inv-'+r.id;
+    div.innerHTML = `
+      <div class="inv-card-head" onclick="toggleInv('${r.id}')">
+        <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+          <span style="font-size:18px">🏗️</span>
+          <input class="inv-name-inp" value="${r.property_name||r.name||''}" placeholder="اسم العقار"
+            onclick="event.stopPropagation()"
+            onchange="let x=D.investments.find(x=>x.id==='${r.id}');x.property_name=this.value;scheduleUpdate('investments','${r.id}',{property_name:this.value})">
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <span class="inv-badge">${fmt(total)}</span>
+          <button class="del-btn" onclick="delInvestment('${r.id}',event)">×</button>
+          <div class="inv-toggle">▼</div>
+        </div>
+      </div>
+
+      <div class="inv-summary">
+        <div class="inv-summary-item">
+          <div class="lbl">القسط الشهري</div>
+          <div class="val">${fmt(monthly)}</div>
+        </div>
+        <div class="inv-summary-item">
+          <div class="lbl">القسط الربع سنوي</div>
+          <div class="val">${fmt(quarterly)}</div>
+        </div>
+      </div>
+
+      <div class="inv-body">
+        <div class="inv-details">
+          <div class="inv-field"><label>السعر الإجمالي EGP</label>
+            <input type="number" value="${total}" onchange="D.investments.find(x=>x.id==='${r.id}').total_price=+this.value;scheduleUpdate('investments','${r.id}',{total_price:+this.value});renderInvestments()"></div>
+          <div class="inv-field"><label>المقدم EGP</label>
+            <input type="number" value="${down}" class="red" onchange="D.investments.find(x=>x.id==='${r.id}').down_payment=+this.value;scheduleUpdate('investments','${r.id}',{down_payment:+this.value});renderInvestments()"></div>
+          <div class="inv-field"><label>القسط الشهري EGP</label>
+            <input type="number" value="${monthly}" onchange="D.investments.find(x=>x.id==='${r.id}').monthly_installment=+this.value;scheduleUpdate('investments','${r.id}',{monthly_installment:+this.value});renderInvestments()"></div>
+          <div class="inv-field"><label>القسط الربع سنوي EGP</label>
+            <input type="number" value="${quarterly}" onchange="D.investments.find(x=>x.id==='${r.id}').quarterly_installment=+this.value;scheduleUpdate('investments','${r.id}',{quarterly_installment:+this.value});renderInvestments()"></div>
+          <div class="inv-field"><label>مدة القسط (شهر)</label>
+            <input type="number" value="${duration}" placeholder="60" onchange="D.investments.find(x=>x.id==='${r.id}').duration_months=+this.value;scheduleUpdate('investments','${r.id}',{duration_months:+this.value});renderInvestments()"></div>
+          <div class="inv-field"><label>تاريخ بداية القسط</label>
+            <input type="date" value="${startDate}" style="font-size:11px" onchange="D.investments.find(x=>x.id==='${r.id}').start_date=this.value;scheduleUpdate('investments','${r.id}',{start_date:this.value});renderInvestments()"></div>
+        </div>
+
+        <div class="inv-totals-row">
+          <div class="inv-total-item"><div class="lbl">المتبقي من السعر</div><div class="val">${fmt(remaining)}</div></div>
+          <div class="inv-total-item"><div class="lbl">${monthsLeft!==null?'شهر متبقي':'شهري × 12'}</div><div class="val">${monthsLeft!==null?monthsLeft+' شهر':fmt(monthly*12)}</div></div>
+          <div class="inv-total-item"><div class="lbl">ربعي × 4</div><div class="val">${fmt(quarterly*4)}</div></div>
+        </div>
+
+        <div class="inv-partner-row">
+          <label>فيه شريك في الاستثمار؟</label>
+          <input type="checkbox" ${r.has_partner?'checked':''} style="width:17px;height:17px;accent-color:#0f9b8e;cursor:pointer"
+            onchange="D.investments.find(x=>x.id==='${r.id}').has_partner=this.checked;scheduleUpdate('investments','${r.id}',{has_partner:this.checked});this.closest('.inv-card').querySelector('.inv-partner-detail').classList.toggle('show',this.checked)">
+        </div>
+
+        <div class="inv-partner-detail ${r.has_partner?'show':''}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+            <div class="inv-field"><label>اسم الشريك</label>
+              <input type="text" value="${r.partner_name||''}" placeholder="اسم الشريك" style="direction:rtl;text-align:right"
+                onchange="D.investments.find(x=>x.id==='${r.id}').partner_name=this.value;scheduleUpdate('investments','${r.id}',{partner_name:this.value})"></div>
+            <div class="inv-field"><label>نسبة الشريك %</label>
+              <input type="number" min="0" max="100" value="${partnerPct}" style="color:#0f9b8e;font-weight:800"
+                onchange="D.investments.find(x=>x.id==='${r.id}').partner_pct=+this.value;scheduleUpdate('investments','${r.id}',{partner_pct:+this.value});renderInvestments()"></div>
+          </div>
+          <div class="inv-field" style="margin-bottom:8px"><label>مَن دافع المقدم؟</label>
+            <select onchange="D.investments.find(x=>x.id==='${r.id}').down_payer=this.value;scheduleUpdate('investments','${r.id}',{down_payer:this.value});renderInvestments()"
+              style="direction:rtl;text-align:right;color:#4a1fa8;font-weight:700;border-color:#d4b8ff;background:#f5f0ff">
+              <option value="me" ${(!r.down_payer||r.down_payer==='me')?'selected':''}>أنا دفعته كله</option>
+              <option value="partner" ${r.down_payer==='partner'?'selected':''}>الشريك دفعه كله</option>
+              <option value="split" ${r.down_payer==='split'?'selected':''}>مقسوم حسب النسبة</option>
+            </select>
+          </div>
+          <div class="inv-breakdown">
+            <div class="inv-share-grid">
+              <div class="inv-share-cell">
+                <div class="lbl">نصيبي (${myPct}%)</div>
+                <div class="row">مقدمي: <strong style="color:#e24b4a">${fmt(myDown)}</strong></div>
+                <div class="row">شهري: <strong style="color:#0f9b8e">${fmt(myMonthly)}</strong></div>
+                <div class="row">ربعي: <strong style="color:#0f9b8e">${fmt(myQuarterly)}</strong></div>
+              </div>
+              <div class="inv-share-cell">
+                <div class="lbl">نصيب ${r.partner_name||'الشريك'} (${partnerPct}%)</div>
+                <div class="row">مقدمه: <strong style="color:#e24b4a">${fmt(down-myDown)}</strong></div>
+                <div class="row">شهري: <strong style="color:#aaa">${fmt(monthly-myMonthly)}</strong></div>
+                <div class="row">ربعي: <strong style="color:#aaa">${fmt(quarterly-myQuarterly)}</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  document.getElementById('inv-grand-total').textContent = fmt(grandTotal);
+  renderDueInstallments();
 }
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
