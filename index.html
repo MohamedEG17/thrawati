@@ -335,6 +335,34 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
 
 .usd-c{color:#b45309;font-weight:800}
 .save-note{text-align:center;font-size:10px;color:var(--textd);padding:14px 0 8px}
+.row-house td{background:rgba(37,99,235,.04)!important}
+.row-house td:first-child{border-right:3px solid rgba(37,99,235,.3)}
+.row-subs td{background:rgba(4,120,87,.04)!important}
+.row-subs td:first-child{border-right:3px solid rgba(4,120,87,.3)}
+.row-extra td{background:rgba(185,28,28,.04)!important}
+.row-extra td:first-child{border-right:3px solid rgba(185,28,28,.3)}
+.overspend-alert{
+  background:linear-gradient(135deg,rgba(185,28,28,.07),rgba(239,68,68,.05));
+  border:1.5px solid rgba(185,28,28,.2);
+  border-radius:14px;padding:14px 16px;margin-top:12px;
+  backdrop-filter:var(--blur);
+  animation:alertPulse 2s ease-in-out infinite;
+}
+@keyframes alertPulse{
+  0%,100%{border-color:rgba(185,28,28,.2);box-shadow:0 0 0 0 rgba(185,28,28,.0)}
+  50%{border-color:rgba(185,28,28,.4);box-shadow:0 0 12px rgba(185,28,28,.1)}
+}
+.alert-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.alert-icon{font-size:20px;animation:shake .5s ease infinite alternate}
+@keyframes shake{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.alert-title{font-size:14px;font-weight:800;color:#b91c1c}
+.alert-sub{font-size:12px;color:#ef4444;margin-bottom:8px}
+.alert-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(185,28,28,.08)}
+.alert-row:last-child{border-bottom:none}
+.alert-lbl{color:#94a3b8;font-weight:500}
+.alert-val{font-weight:700;direction:ltr}
+.alert-val.red{color:#b91c1c}
+.alert-val.green{color:#16a34a}
 
 /* ── Cat tabs ── */
 .cat-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
@@ -477,6 +505,27 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
       <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
       <tbody id="expenses-body"></tbody>
       <tr class="total-row"><td>الإجمالي</td><td class="computed" id="expenses-total" style="color:#7c3aed">0 EGP</td><td></td><td></td></tr></table>
+      <div id="overspend-alert" style="display:none;margin:10px 12px;padding:13px 14px;background:rgba(185,28,28,.06);border:1.5px solid rgba(185,28,28,.18);border-radius:12px;font-size:12px;color:#b91c1c;animation:pageIn .3s ease">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:18px">⚠️</span>
+          <span style="font-weight:700;font-size:13px">تجاوز في المصاريف هذا الشهر!</span>
+          <span id="alert-pct" style="margin-right:auto;font-size:11px;background:rgba(185,28,28,.1);padding:2px 8px;border-radius:8px"></span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+          <div style="background:rgba(185,28,28,.06);border-radius:8px;padding:7px 4px">
+            <div style="font-size:9px;color:#b91c1c;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px">البنود</div>
+            <div id="alert-items" style="font-weight:800;font-size:14px">0</div>
+          </div>
+          <div style="background:rgba(185,28,28,.06);border-radius:8px;padding:7px 4px">
+            <div style="font-size:9px;color:#b91c1c;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px">إجمالي الزيادة</div>
+            <div id="alert-extra-sum" style="font-weight:800;font-size:14px;direction:ltr">0</div>
+          </div>
+          <div style="background:rgba(185,28,28,.06);border-radius:8px;padding:7px 4px">
+            <div style="font-size:9px;color:#b91c1c;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px">المتبقي منها</div>
+            <div id="alert-extra-rem" style="font-weight:800;font-size:14px;direction:ltr">0</div>
+          </div>
+        </div>
+      </div>
       <button class="btn-add" onclick="addExpCat('house')" style="border-color:rgba(37,99,235,.2);color:rgba(37,99,235,.6)">+ مصاريف البيت 🏠</button>
       <button class="btn-add" onclick="addExpCat('extra')" style="border-color:rgba(185,28,28,.2);color:rgba(185,28,28,.5);margin-top:0">+ زيادة عن الشهر ⚡</button>
     </div>
@@ -541,6 +590,22 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
       <tr class="total-row"><td>الإجمالي</td><td class="computed" id="extra-total" style="color:#b91c1c">0 EGP</td><td></td><td></td></tr></table>
       <button class="btn-add" onclick="addExpCat('extra')" style="border-color:rgba(185,28,28,.2);color:rgba(185,28,28,.5)">+ إضافة مصروف</button>
     </div>
+  </div>
+
+  <!-- OVERSPEND ALERT -->
+  <div id="overspend-alert" class="overspend-alert" style="display:none">
+    <div class="alert-top">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <div class="alert-title">تجاوزت المصاريف المتوقعة!</div>
+        <div class="alert-sub">عندك مصاريف زيادة عن الشهر محتاج تنتبه ليها</div>
+      </div>
+    </div>
+    <div class="alert-row"><span class="alert-lbl">إجمالي الزيادة</span><span class="alert-val red" id="alert-extra-sum">0 EGP</span></div>
+    <div class="alert-row"><span class="alert-lbl">تم دفعه منها</span><span class="alert-val" id="alert-extra-paid">0 EGP</span></div>
+    <div class="alert-row"><span class="alert-lbl">المتبقي للدفع</span><span class="alert-val red" id="alert-extra-rem">0 EGP</span></div>
+    <div class="alert-row"><span class="alert-lbl">عدد البنود</span><span class="alert-val" id="alert-items">0</span></div>
+    <div class="alert-row"><span class="alert-lbl">نسبة الزيادة</span><span class="alert-val" id="alert-pct">0%</span></div>
   </div>
 </div>
 
@@ -739,18 +804,28 @@ async function addExpCat(cat){
   }catch(e){setDot('err');toast('فشل الإضافة: '+e.message,'err');}
 }
 
-function makeExpRow(r,accentColor){
+const CAT_STYLES={
+  house:{bg:'rgba(37,99,235,.05)',accent:'#1d4ed8',check:'#2563eb'},
+  extra:{bg:'rgba(185,28,28,.06)',accent:'#b91c1c',check:'#dc2626'},
+  default:{bg:'rgba(124,58,237,.04)',accent:'#7c3aed',check:'#8b5cf6'},
+};
+
+function makeExpRow(r,accentColor,forceCategory){
   const amount=+r.amount||0,paidAmount=+r.paid_amount||0;
   const remaining=amount-paidAmount;
   const fullyPaid=r.paid||(paidAmount>=amount&&amount>0);
+  const cat=forceCategory||(r.category||'house');
+  const s=CAT_STYLES[cat]||CAT_STYLES.default;
+  const accent=accentColor||s.accent;
   const tr=document.createElement('tr');
   if(fullyPaid)tr.classList.add('paid-row');
+  else tr.style.background=s.bg;
   tr.innerHTML=`
     <td><input class="inp" value="${r.name||''}" onchange="D.expenses.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('expenses','${r.id}',{name:this.value})"></td>
     <td><input class="inp" type="number" value="${amount}" onchange="D.expenses.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('expenses','${r.id}',{amount:+this.value});renderAll()"></td>
-    <td><input class="inp" type="number" value="${paidAmount}" placeholder="0" onchange="let v=+this.value;D.expenses.find(x=>x.id==='${r.id}').paid_amount=v;scheduleUpdate('expenses','${r.id}',{paid_amount:v});renderAll()" style="color:${accentColor};font-weight:700"></td>
+    <td><input class="inp" type="number" value="${paidAmount}" placeholder="0" onchange="let v=+this.value;D.expenses.find(x=>x.id==='${r.id}').paid_amount=v;scheduleUpdate('expenses','${r.id}',{paid_amount:v});renderAll()" style="color:${accent};font-weight:700"></td>
     <td class="computed" style="color:${remaining<=0?'#16a34a':'#0369a1'}">${fmt(Math.max(0,remaining))}</td>
-    <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="let row=D.expenses.find(x=>x.id==='${r.id}');row.paid=this.checked;row.paid_amount=this.checked?${amount}:0;scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:${accentColor}"></td>
+    <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="let row=D.expenses.find(x=>x.id==='${r.id}');row.paid=this.checked;row.paid_amount=this.checked?${amount}:0;scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:${s.check}"></td>
     <td style="text-align:center"><button class="del-btn" onclick="delRow('expenses','${r.id}')">×</button></td>`;
   return tr;
 }
@@ -769,9 +844,9 @@ function rExp(){
     const amount=+r.amount||0,paidAmount=+r.paid_amount||0;
     totalAll+=amount; totalPaid+=paidAmount;
     const cat=r.category||'house';
-    tbAll.appendChild(makeExpRow(r,'#7c3aed'));
-    if(cat==='house'){houseTotal+=amount;tbHouse.appendChild(makeExpRow(r,'#1d4ed8'));}
-    else if(cat==='extra'){extraTotal+=amount;tbExtra.appendChild(makeExpRow(r,'#b91c1c'));}
+    tbAll.appendChild(makeExpRow(r,null,cat));
+    if(cat==='house'){houseTotal+=amount;tbHouse.appendChild(makeExpRow(r,'#1d4ed8','house'));}
+    else if(cat==='extra'){extraTotal+=amount;tbExtra.appendChild(makeExpRow(r,'#b91c1c','extra'));}
   });
 
   let subsUSD=0,subsEGP=0,subsPaid=0;
@@ -812,6 +887,24 @@ function rExp(){
   const re=document.getElementById('exp-remaining');
   if(grandRem<=0){re.textContent='0 EGP';re.classList.add('warn');}
   else{re.textContent=fmt(grandRem);re.classList.remove('warn');}
+
+  // overspend alert
+  const alertEl=document.getElementById('overspend-alert');
+  const extraItems=D.expenses.filter(r=>r.category==='extra');
+  const extraSum=extraItems.reduce((s,r)=>s+(+r.amount||0),0);
+  if(extraSum>0){
+    const extraPaid=extraItems.reduce((s,r)=>s+(+r.paid_amount||0),0);
+    alertEl.style.display='block';
+    document.getElementById('alert-extra-sum').textContent=fmt(extraSum);
+    document.getElementById('alert-extra-paid').textContent=fmt(extraPaid);
+    document.getElementById('alert-extra-rem').textContent=fmt(Math.max(0,extraSum-extraPaid));
+    document.getElementById('alert-items').textContent=extraItems.length+' بنود';
+    const pctExtra=grandTotal>0?Math.round(extraSum/grandTotal*100):0;
+    document.getElementById('alert-pct').textContent=pctExtra+'% من ميزانية الشهر';
+    document.getElementById('alert-pct').className='alert-val '+(pctExtra>=20?'red':'');
+  } else {
+    alertEl.style.display='none';
+  }
 }
 
 function rDebts(){
