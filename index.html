@@ -6,68 +6,242 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ثروتي">
-<meta name="theme-color" content="#7c5cbf">
+<meta name="theme-color" content="#f0f8ff">
 <link rel="manifest" href="manifest.json">
 <title>ثروتي Pro</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,'Segoe UI',Arial,sans-serif;background:#f0f2f8;color:#1a1a2e;direction:rtl;min-height:100vh}
-.topbar{background:#fff;border-bottom:1px solid #e8eaf0;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top));display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;gap:10px}
-.logo{font-size:17px;font-weight:800;background:linear-gradient(135deg,#6a3de8,#c77dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+
+:root{
+  --sky:   #0ea5e9;
+  --sky2:  #38bdf8;
+  --sky3:  #7dd3fc;
+  --blue:  #3b82f6;
+  --ind:   #6366f1;
+  --cyan:  #06b6d4;
+  --text:  #0f172a;
+  --textm: #475569;
+  --textd: #94a3b8;
+  --bg:    #f0f8ff;
+  --bg2:   #e0f2fe;
+  --white: #ffffff;
+  --blur:  blur(20px);
+}
+
+body{
+  font-family:-apple-system,'Segoe UI',Arial,sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  color:var(--text);
+  direction:rtl;
+  overflow-x:hidden;
+}
+
+/* ── Animated orbs ── */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:orbFloat 10s ease-in-out infinite}
+.orb1{width:500px;height:500px;top:-15vh;left:-15vw;
+  background:radial-gradient(circle,rgba(14,165,233,.12),transparent 65%);animation-delay:0s}
+.orb2{width:400px;height:400px;bottom:-10vh;right:-10vw;
+  background:radial-gradient(circle,rgba(99,102,241,.1),transparent 65%);animation-delay:-4s}
+.orb3{width:300px;height:300px;top:45vh;right:25vw;
+  background:radial-gradient(circle,rgba(6,182,212,.08),transparent 65%);animation-delay:-7s}
+@keyframes orbFloat{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(18px,-22px) scale(1.04)}
+  66%{transform:translate(-12px,14px) scale(.96)}
+}
+
+/* ── Topbar ── */
+.topbar{
+  background:rgba(255,255,255,.75);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border-bottom:1px solid rgba(14,165,233,.12);
+  padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:100;gap:10px;
+  box-shadow:0 1px 20px rgba(14,165,233,.06);
+}
+.logo{
+  font-size:18px;font-weight:900;letter-spacing:-.4px;
+  background:linear-gradient(120deg,#0ea5e9,#6366f1,#06b6d4);
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+
 .topbar-right{display:flex;align-items:center;gap:8px}
-.rate-pill{display:flex;align-items:center;gap:6px;background:#f5f0ff;border:1.5px solid #d4b8ff;border-radius:20px;padding:5px 11px}
-.rate-pill label{font-size:10px;color:#9b7fe0;font-weight:700}
-.rate-pill input{background:transparent;border:none;color:#4a1fa8;font-size:13px;font-weight:800;width:65px;text-align:center;outline:none}
-.sync-btn{background:#f5f0ff;border:1.5px solid #d4b8ff;border-radius:20px;padding:5px 11px;font-size:11px;color:#7c5cbf;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:#34c759;flex-shrink:0}
-.sync-dot.err{background:#ff3b30}
-.sync-dot.loading{background:#ff9500;animation:pulse 1s infinite}
+.rate-pill{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(14,165,233,.08);
+  border:1.5px solid rgba(14,165,233,.2);
+  border-radius:20px;padding:5px 12px;
+}
+.rate-pill label{font-size:10px;color:var(--sky);font-weight:700}
+.rate-pill input{background:transparent;border:none;color:#0369a1;font-size:13px;font-weight:800;width:65px;text-align:center;outline:none}
+.sync-btn{
+  background:rgba(255,255,255,.8);
+  border:1.5px solid rgba(14,165,233,.2);
+  border-radius:20px;padding:5px 12px;
+  font-size:11px;color:var(--textm);font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:5px;
+  backdrop-filter:var(--blur);
+  transition:all .2s;
+}
+.sync-btn:hover{background:rgba(14,165,233,.08);border-color:var(--sky)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;flex-shrink:0}
+.sync-dot.err{background:#ef4444}
+.sync-dot.loading{background:#f59e0b;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 20px;border-radius:12px;font-size:13px;z-index:999;display:none;max-width:90vw;text-align:center}
-.toast.show{display:block}
-.toast.err{background:#e24b4a}
-.toast.ok{background:#34c759}
-.nav{display:flex;background:#fff;border-bottom:1px solid #eeeaf8;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:22px;left:50%;
+  transform:translateX(-50%) translateY(10px);
+  background:rgba(255,255,255,.95);
+  backdrop-filter:var(--blur);
+  border:1.5px solid rgba(14,165,233,.2);
+  color:var(--text);
+  padding:9px 20px;border-radius:14px;
+  font-size:13px;z-index:999;
+  display:none;max-width:90vw;text-align:center;
+  box-shadow:0 8px 24px rgba(14,165,233,.1);
+}
+.toast.show{display:block;animation:toastIn .3s ease}
+@keyframes toastIn{from{transform:translateX(-50%) translateY(10px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+.toast.err{background:rgba(254,242,242,.95);border-color:rgba(239,68,68,.3);color:#b91c1c}
+.toast.ok{background:rgba(240,253,244,.95);border-color:rgba(34,197,94,.3);color:#15803d}
+
+/* ── Nav ── */
+.nav{
+  display:flex;
+  background:rgba(255,255,255,.8);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border-bottom:1px solid rgba(14,165,233,.1);
+  overflow-x:auto;scrollbar-width:none;padding:0 4px;
+  position:sticky;top:calc(44px + env(safe-area-inset-top));z-index:99;
+  box-shadow:0 2px 12px rgba(14,165,233,.05);
+}
 .nav::-webkit-scrollbar{display:none}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 12px;cursor:pointer;border-bottom:2.5px solid transparent;min-width:60px;transition:all .2s}
-.nav-item.active{border-bottom-color:#7c5cbf}
-.nav-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.nav-item.active .nav-icon{transform:scale(1.08)}
-.nav-label{font-size:10px;font-weight:700;color:#bbb;white-space:nowrap}
-.nav-item.active .nav-label{color:#7c5cbf}
-.ni-d{background:linear-gradient(135deg,#6a3de8,#c77dff)}
-.ni-b{background:linear-gradient(135deg,#2980b9,#6dd5fa)}
-.ni-g{background:linear-gradient(135deg,#f7971e,#ffd200)}
-.ni-s{background:linear-gradient(135deg,#11998e,#38ef7d)}
-.ni-e{background:linear-gradient(135deg,#f953c6,#b91d73)}
-.ni-dbt{background:linear-gradient(135deg,#f85032,#e73827)}
-.page{display:none;padding:14px;max-width:700px;margin:0 auto;padding-bottom:calc(14px + env(safe-area-inset-bottom));animation:fi .2s ease}
-.page.active{display:block}
-@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.hero{border-radius:18px;padding:22px 18px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(135deg,#5b2de8,#9b5de5 50%,#c77dff)}
-.hero::before{content:'';position:absolute;top:-40px;left:-40px;width:160px;height:160px;background:rgba(255,255,255,.07);border-radius:50%}
-.hero::after{content:'';position:absolute;bottom:-25px;right:-15px;width:110px;height:110px;background:rgba(255,255,255,.05);border-radius:50%}
-.hero-lbl{font-size:11px;color:rgba(255,255,255,.65);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
-.hero-val{font-size:34px;font-weight:900;color:#fff;direction:ltr;text-align:right}
-.hero-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
-.hero-pill{display:inline-block;background:rgba(255,255,255,.18);border-radius:10px;padding:3px 10px;font-size:11px;margin-top:9px;color:rgba(255,255,255,.9);font-weight:600}
+.nav-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:8px 12px;cursor:pointer;
+  border-bottom:2.5px solid transparent;
+  min-width:60px;transition:all .25s;
+}
+.nav-item.active{border-bottom-color:var(--sky)}
+.nav-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+.nav-item.active .nav-icon{transform:scale(1.12) translateY(-2px)}
+.nav-item:hover:not(.active) .nav-icon{transform:scale(1.05)}
+.nav-label{font-size:9px;font-weight:700;color:var(--textd);white-space:nowrap;transition:color .2s}
+.nav-item.active .nav-label{color:var(--sky)}
+.ni-d{background:linear-gradient(135deg,#2563eb,#7c3aed)}
+.ni-b{background:linear-gradient(135deg,#0284c7,#0ea5e9)}
+.ni-g{background:linear-gradient(135deg,#b45309,#f59e0b)}
+.ni-s{background:linear-gradient(135deg,#047857,#10b981)}
+.ni-e{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+.ni-dbt{background:linear-gradient(135deg,#b91c1c,#ef4444)}
+.ni-inv{background:linear-gradient(135deg,#0f766e,#06b6d4)}
+
+/* ── Pages ── */
+.page{display:none;padding:14px;max-width:700px;margin:0 auto;
+  padding-bottom:calc(20px + env(safe-area-inset-bottom));
+  position:relative;z-index:1}
+.page.active{display:block;animation:pageIn .28s cubic-bezier(.2,.8,.4,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Hero ── */
+.hero{
+  border-radius:22px;padding:26px 22px;margin-bottom:14px;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(14,165,233,.85),rgba(59,130,246,.75),rgba(99,102,241,.7));
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:0 10px 40px rgba(14,165,233,.25),0 2px 8px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.25);
+  animation:heroGlow 4s ease-in-out infinite alternate;
+}
+@keyframes heroGlow{
+  from{box-shadow:0 10px 40px rgba(14,165,233,.2),inset 0 1px 0 rgba(255,255,255,.2)}
+  to{box-shadow:0 14px 50px rgba(14,165,233,.35),0 0 50px rgba(99,102,241,.1),inset 0 1px 0 rgba(255,255,255,.3)}
+}
+.hero::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(255,255,255,.12),transparent 65%);
+  border-radius:50%;animation:heroOrb 7s ease-in-out infinite}
+.hero::after{content:'';position:absolute;bottom:-30px;right:-20px;width:150px;height:150px;
+  background:radial-gradient(circle,rgba(99,102,241,.2),transparent 65%);border-radius:50%}
+@keyframes heroOrb{0%,100%{transform:translate(0,0)}50%{transform:translate(12px,-12px)}}
+.hero-lbl{font-size:10px;color:rgba(255,255,255,.65);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.hero-val{font-size:36px;font-weight:900;color:#fff;direction:ltr;text-align:right;
+  text-shadow:0 2px 10px rgba(0,0,0,.15);}
+.hero-sub{font-size:10px;color:rgba(255,255,255,.55);margin-top:3px}
+.hero-pill{
+  display:inline-block;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(10px);
+  border-radius:10px;padding:3px 10px;
+  font-size:10px;margin-top:9px;color:rgba(255,255,255,.9);font-weight:600;
+}
+
+/* ── Metric cards ── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.mc{background:#fff;border-radius:14px;padding:14px 12px;border:1px solid #eeeaf8;position:relative;overflow:hidden}
-.mc-acc{position:absolute;top:0;right:0;width:4px;height:100%}
+.mc{
+  background:rgba(255,255,255,.7);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid rgba(14,165,233,.12);
+  border-radius:16px;padding:14px 12px;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 16px rgba(14,165,233,.08),0 1px 4px rgba(0,0,0,.04);
+  transition:transform .2s,box-shadow .2s;
+}
+.mc:active{transform:scale(.97)}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(14,165,233,.15),transparent)}
+.mc-acc{position:absolute;top:0;right:0;width:3px;height:100%;border-radius:0 14px 14px 0}
 .mc-icon{font-size:20px;margin-bottom:5px}
-.mc-lbl{font-size:11px;color:#aaa;font-weight:600;margin-bottom:3px}
-.mc-val{font-size:17px;font-weight:800;color:#1a1a2e;direction:ltr;text-align:right}
-.mc-bar{height:4px;border-radius:4px;background:#f0f2f8;margin-top:9px;overflow:hidden}
-.mc-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.card{background:#fff;border-radius:14px;border:1px solid #eeeaf8;overflow:hidden;margin-bottom:12px}
-.card-head{padding:13px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f5f0ff}
-.card-title{font-size:14px;font-weight:700;color:#1a1a2e}
-.card-badge{background:#f5f0ff;color:#7c5cbf;font-size:12px;font-weight:800;padding:4px 11px;border-radius:14px;direction:ltr;white-space:nowrap}
+.mc-lbl{font-size:10px;color:var(--textd);font-weight:600;margin-bottom:3px}
+.mc-val{font-size:17px;font-weight:800;color:var(--text);direction:ltr;text-align:right}
+.mc-bar{height:3px;border-radius:3px;background:rgba(14,165,233,.1);margin-top:10px;overflow:hidden}
+.mc-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+/* ── Cards ── */
+.card{
+  background:rgba(255,255,255,.72);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid rgba(14,165,233,.1);
+  border-radius:18px;overflow:hidden;margin-bottom:12px;
+  box-shadow:0 4px 20px rgba(14,165,233,.07),0 1px 4px rgba(0,0,0,.04);
+  transition:border-color .2s,box-shadow .2s;
+}
+.card:hover{border-color:rgba(14,165,233,.2);box-shadow:0 6px 24px rgba(14,165,233,.1)}
+.card::before{content:'';display:block;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(14,165,233,.1),transparent)}
+.card-head{
+  padding:13px 14px;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid rgba(14,165,233,.08);
+  background:rgba(240,248,255,.5);
+}
+.card-title{font-size:14px;font-weight:700;color:var(--text)}
+.card-badge{
+  background:rgba(14,165,233,.1);
+  border:1px solid rgba(14,165,233,.2);
+  color:#0369a1;font-size:11px;font-weight:800;
+  padding:3px 10px;border-radius:12px;direction:ltr;white-space:nowrap;
+}
+
+/* ── Tables ── */
 table{width:100%;border-collapse:collapse;table-layout:fixed}
-th{font-size:11px;color:#b0a0d0;font-weight:700;padding:9px 10px;text-align:right;border-bottom:1px solid #f5f0ff;white-space:nowrap}
-td{padding:10px 10px;border-bottom:1px solid #f7f7f9;font-size:14px;vertical-align:middle;overflow:hidden}
+th{font-size:10px;color:var(--textd);font-weight:700;padding:9px 10px;text-align:right;
+  border-bottom:1px solid rgba(14,165,233,.08);white-space:nowrap;letter-spacing:.3px}
+td{padding:10px 10px;border-bottom:1px solid rgba(14,165,233,.05);font-size:13px;vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#fdf9ff}
+tr{transition:background .15s}
+tr:hover td{background:rgba(14,165,233,.04)}
+
 .banks-table th:nth-child(1),.banks-table td:nth-child(1){width:28%}
 .banks-table th:nth-child(2),.banks-table td:nth-child(2){width:20%;text-align:left;direction:ltr}
 .banks-table th:nth-child(3),.banks-table td:nth-child(3){width:24%;text-align:left;direction:ltr}
@@ -92,40 +266,125 @@ tr:hover td{background:#fdf9ff}
 .debt-table th:nth-child(2),.debt-table td:nth-child(2){width:32%;text-align:left;direction:ltr}
 .debt-table th:nth-child(3),.debt-table td:nth-child(3){width:12%;text-align:center}
 .debt-table th:nth-child(4),.debt-table td:nth-child(4){width:12%;padding:0;text-align:center}
-.inp{background:transparent;border:none;color:#1a1a2e;font-size:14px;font-family:inherit;width:100%;outline:none;padding:1px 2px;text-align:right}
-.inp:focus{background:#f5f0ff;border-radius:5px;color:#2d1b69}
+
+.inp{background:transparent;border:none;color:var(--text);font-size:13px;
+  font-family:inherit;width:100%;outline:none;padding:2px 3px;text-align:right}
+.inp:focus{background:rgba(14,165,233,.07);border-radius:6px}
 .inp[type=number]{direction:ltr;text-align:left}
-.computed{color:#7c5cbf;font-weight:800;font-size:14px;direction:ltr;text-align:left}
-.total-row td{background:#faf7ff;font-weight:700;font-size:14px}
-.total-row .computed{color:#5b2de8;font-size:15px}
-.btn-add{display:flex;align-items:center;gap:6px;margin:10px 12px;padding:9px 14px;background:#faf7ff;border:1.5px dashed #d4b8ff;border-radius:10px;color:#9b7fe0;font-size:13px;font-weight:600;cursor:pointer}
-.del-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:2px 6px;line-height:1}
-.del-btn:active{color:#e24b4a}
-.paid-check{width:18px;height:18px;cursor:pointer}
+.computed{color:#0369a1;font-weight:800;font-size:13px;direction:ltr;text-align:left}
+.total-row td{background:rgba(14,165,233,.05);font-weight:700;font-size:13px}
+.total-row .computed{color:#0284c7;font-size:14px}
+
+.btn-add{
+  display:flex;align-items:center;gap:6px;margin:10px 12px;
+  padding:9px 14px;
+  background:rgba(14,165,233,.06);
+  border:1.5px dashed rgba(14,165,233,.25);
+  border-radius:10px;color:rgba(14,165,233,.6);
+  font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.btn-add:hover{background:rgba(14,165,233,.1);border-color:var(--sky);color:var(--sky)}
+.del-btn{background:none;border:none;color:#cbd5e1;cursor:pointer;
+  font-size:15px;padding:2px 6px;border-radius:5px;line-height:1;transition:color .15s}
+.del-btn:active{color:#ef4444}
+.paid-check{width:17px;height:17px;cursor:pointer;accent-color:var(--sky)}
 tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
-.dist-item{margin-bottom:13px}
+
+/* ── Dist bars ── */
+.dist-item{margin-bottom:14px;animation:slideIn .4s ease both}
+.dist-item:nth-child(2){animation-delay:.08s}
+@keyframes slideIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
 .dist-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
-.dist-lbl{color:#666;font-weight:600}
-.dist-val{color:#1a1a2e;font-weight:700;direction:ltr}
-.dist-pct{color:#bbb;font-size:10px}
-.dist-bg{background:#eeeaf8;border-radius:5px;height:8px;overflow:hidden}
-.dist-bar{height:100%;border-radius:5px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.exp-hero{background:linear-gradient(135deg,#f953c6,#b91d73);border-radius:16px;padding:18px;margin-bottom:12px;color:#fff;position:relative;overflow:hidden}
-.exp-hero::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:rgba(255,255,255,.08);border-radius:50%}
+.dist-lbl{color:var(--textm);font-weight:600}
+.dist-val{color:var(--text);font-weight:700;direction:ltr}
+.dist-pct{color:var(--textd);font-size:10px}
+.dist-bg{background:rgba(14,165,233,.08);border-radius:6px;height:7px;overflow:hidden}
+.dist-bar{height:100%;border-radius:6px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+/* ── Expenses hero ── */
+.exp-hero{
+  background:rgba(255,255,255,.65);
+  backdrop-filter:var(--blur);
+  border:1px solid rgba(168,85,247,.15);
+  box-shadow:0 6px 24px rgba(168,85,247,.08);
+  border-radius:18px;padding:18px;margin-bottom:12px;
+  position:relative;overflow:hidden;
+}
+.exp-hero::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;
+  background:radial-gradient(circle,rgba(168,85,247,.1),transparent 65%);border-radius:50%}
 .exp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:13px}
-.exp-col .lbl{font-size:10px;color:rgba(255,255,255,.65);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
-.exp-col .val{font-size:22px;font-weight:900;direction:ltr}
-.exp-col .val.sm{font-size:17px}
-.exp-col .val.warn{color:#ffcdd2}
-.bbar-bg{background:rgba(255,255,255,.2);border-radius:5px;height:8px;overflow:hidden}
-.bbar-fill{height:100%;border-radius:5px;background:rgba(255,255,255,.85);transition:width .5s ease}
-.debt-info{background:#fff8f8;border:1px solid #fdecea;border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:13px;color:#c0392b;display:flex;align-items:center;gap:8px}
-.usd-c{color:#d97706;font-weight:800}
-.save-note{text-align:center;font-size:11px;color:#ccc;padding:14px 0 8px}
+.exp-col .lbl{font-size:9px;color:var(--textd);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.exp-col .val{font-size:22px;font-weight:900;direction:ltr;color:#6d28d9}
+.exp-col .val.sm{font-size:17px;color:#7c3aed}
+.exp-col .val.warn{color:#dc2626}
+.bbar-bg{background:rgba(168,85,247,.1);border-radius:5px;height:7px;overflow:hidden}
+.bbar-fill{height:100%;border-radius:5px;
+  background:linear-gradient(90deg,#8b5cf6,#a78bfa);
+  transition:width .6s ease;
+  box-shadow:0 0 8px rgba(139,92,246,.3);}
+
+/* ── Debt info ── */
+.debt-info{
+  background:rgba(254,242,242,.8);
+  border:1px solid rgba(239,68,68,.15);
+  backdrop-filter:var(--blur);
+  border-radius:12px;padding:11px 13px;margin-bottom:12px;
+  font-size:12px;color:#b91c1c;
+  display:flex;align-items:center;gap:8px;
+}
+
+.usd-c{color:#b45309;font-weight:800}
+.save-note{text-align:center;font-size:10px;color:var(--textd);padding:14px 0 8px}
+
+/* ── Cat tabs ── */
+.cat-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.cat-tab{padding:7px 14px;border-radius:20px;border:1.5px solid rgba(14,165,233,.2);
+  background:rgba(255,255,255,.6);backdrop-filter:blur(10px);
+  font-size:12px;font-weight:600;color:var(--textm);cursor:pointer;transition:all .2s;
+  box-shadow:0 2px 8px rgba(14,165,233,.06)}
+.cat-tab:hover{background:rgba(14,165,233,.08);border-color:var(--sky)}
+.cat-tab.active{background:var(--sky);border-color:var(--sky);color:#fff;
+  box-shadow:0 4px 14px rgba(14,165,233,.3)}
+.cat-tab.house.active{background:linear-gradient(135deg,#2563eb,#0ea5e9);border-color:#2563eb;
+  box-shadow:0 4px 14px rgba(37,99,235,.3)}
+.cat-tab.subs.active{background:linear-gradient(135deg,#047857,#10b981);border-color:#047857;
+  box-shadow:0 4px 14px rgba(4,120,87,.3)}
+.cat-tab.extra.active{background:linear-gradient(135deg,#b91c1c,#ef4444);border-color:#b91c1c;
+  box-shadow:0 4px 14px rgba(185,28,28,.3)}
+
+.exp-section{display:none}
+.exp-section.show{display:block;animation:pageIn .25s ease}
+
+/* ── Subs hero ── */
+.subs-hero{
+  background:rgba(255,255,255,.65);
+  backdrop-filter:var(--blur);
+  border:1px solid rgba(4,120,87,.15);
+  box-shadow:0 6px 24px rgba(4,120,87,.08);
+  border-radius:18px;padding:18px;margin-bottom:12px;
+  position:relative;overflow:hidden;
+}
+.subs-hero::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;
+  background:radial-gradient(circle,rgba(16,185,129,.1),transparent 65%);border-radius:50%}
+.subs-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.subs-col .lbl{font-size:9px;color:var(--textd);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.subs-col .val{font-size:22px;font-weight:900;color:#047857;direction:ltr}
+.subs-col .val.sm{font-size:17px;color:#065f46}
+
+/* subs table cols */
+.subs-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.subs-table th:nth-child(1),.subs-table td:nth-child(1){width:36%}
+.subs-table th:nth-child(2),.subs-table td:nth-child(2){width:20%;text-align:left;direction:ltr}
+.subs-table th:nth-child(3),.subs-table td:nth-child(3){width:26%;text-align:left;direction:ltr}
+.subs-table th:nth-child(4),.subs-table td:nth-child(4){width:10%;text-align:center}
+.subs-table th:nth-child(5),.subs-table td:nth-child(5){width:8%;padding:0;text-align:center}
 </style>
 </head>
 <body>
 
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 <div id="toast" class="toast"></div>
 
 <div class="topbar">
@@ -158,10 +417,13 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
     <div class="hero-pill" id="rate-tag">1 USD = 53.09 EGP</div>
   </div>
   <div class="g2">
-    <div class="mc"><div class="mc-acc" style="background:linear-gradient(180deg,#4776e6,#8e54e9)"></div><div class="mc-icon">🏦</div><div class="mc-lbl">الرصيد البنكي</div><div class="mc-val" id="sum-banks">0 EGP</div><div class="mc-bar"><div class="mc-fill" id="bar-banks" style="background:linear-gradient(90deg,#4776e6,#8e54e9);width:0%"></div></div></div>
-    <div class="mc"><div class="mc-acc" style="background:linear-gradient(180deg,#f7971e,#ffd200)"></div><div class="mc-icon">✨</div><div class="mc-lbl">قيمة الذهب</div><div class="mc-val" id="sum-gold">0 EGP</div><div class="mc-bar"><div class="mc-fill" id="bar-gold" style="background:linear-gradient(90deg,#f7971e,#ffd200);width:0%"></div></div></div>
+    <div class="mc"><div class="mc-acc" style="background:linear-gradient(180deg,#0ea5e9,#6366f1)"></div><div class="mc-icon">🏦</div><div class="mc-lbl">الرصيد البنكي</div><div class="mc-val" id="sum-banks">0 EGP</div><div class="mc-bar"><div class="mc-fill" id="bar-banks" style="background:linear-gradient(90deg,#0ea5e9,#6366f1);width:0%"></div></div></div>
+    <div class="mc"><div class="mc-acc" style="background:linear-gradient(180deg,#f59e0b,#fcd34d)"></div><div class="mc-icon">✨</div><div class="mc-lbl">قيمة الذهب</div><div class="mc-val" id="sum-gold">0 EGP</div><div class="mc-bar"><div class="mc-fill" id="bar-gold" style="background:linear-gradient(90deg,#f59e0b,#fcd34d);width:0%"></div></div></div>
   </div>
-  <div class="card"><div class="card-head"><div class="card-title">توزيع الثروة</div></div><div style="padding:14px" id="dist-bars"></div></div>
+  <div class="card">
+    <div class="card-head"><div class="card-title">توزيع الثروة</div></div>
+    <div style="padding:14px" id="dist-bars"></div>
+  </div>
 </div>
 
 <div id="tab-banks" class="page">
@@ -205,249 +467,214 @@ tr.paid-row td:not(.paid-cell){opacity:.25;text-decoration:line-through}
     <button class="cat-tab extra" onclick="showCat('extra',this)">⚡ زيادة عن الشهر</button>
   </div>
 
+  <!-- ALL -->
   <div class="exp-section show" id="sec-all">
-    <div class="card" style="border-color:#fce7f3"><div class="card-head" style="border-bottom-color:#fce7f3">
-      <div class="card-title" style="color:#b91d73">📊 كل المصاريف</div>
-      <span class="card-badge" id="exp-total-head" style="background:#fce7f3;color:#b91d73">0 EGP</span>
-    </div>
-    <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
-    <tbody id="expenses-body"></tbody>
-    <tr class="total-row"><td>الإجمالي</td><td class="computed" id="expenses-total" style="color:#b91d73">0 EGP</td><td></td><td></td></tr></table>
-    <button class="btn-add" onclick="addExpCat('house')" style="border-color:#bfdbfe;color:#1d4ed8;background:#eff6ff">+ مصاريف البيت 🏠</button>
-    <button class="btn-add" onclick="addExpCat('extra')" style="border-color:#fca5a5;color:#e24b4a;background:#fff5f5;margin-top:0">+ زيادة عن الشهر ⚡</button>
+    <div class="card" style="border-color:rgba(168,85,247,.12)">
+      <div class="card-head" style="border-bottom-color:rgba(168,85,247,.08);background:rgba(245,243,255,.5)">
+        <div class="card-title" style="color:#7c3aed">📊 كل المصاريف</div>
+        <span class="card-badge" id="exp-total-head" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2);color:#7c3aed">0 EGP</span>
+      </div>
+      <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
+      <tbody id="expenses-body"></tbody>
+      <tr class="total-row"><td>الإجمالي</td><td class="computed" id="expenses-total" style="color:#7c3aed">0 EGP</td><td></td><td></td></tr></table>
+      <button class="btn-add" onclick="addExpCat('house')" style="border-color:rgba(37,99,235,.2);color:rgba(37,99,235,.6)">+ مصاريف البيت 🏠</button>
+      <button class="btn-add" onclick="addExpCat('extra')" style="border-color:rgba(185,28,28,.2);color:rgba(185,28,28,.5);margin-top:0">+ زيادة عن الشهر ⚡</button>
     </div>
   </div>
 
+  <!-- HOUSE -->
   <div class="exp-section" id="sec-house">
-    <div class="card" style="border-color:#bfdbfe"><div class="card-head" style="border-bottom-color:#bfdbfe;background:linear-gradient(135deg,rgba(41,128,185,.06),rgba(109,213,250,.04))">
-      <div class="card-title" style="color:#1d4ed8">🏠 مصاريف البيت</div>
-      <span class="card-badge" id="house-total-head" style="background:#dbeafe;color:#1d4ed8">0 EGP</span>
-    </div>
-    <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
-    <tbody id="house-body"></tbody>
-    <tr class="total-row"><td>الإجمالي</td><td class="computed" id="house-total" style="color:#1d4ed8">0 EGP</td><td></td><td></td></tr></table>
-    <button class="btn-add" onclick="addExpCat('house')" style="border-color:#bfdbfe;color:#1d4ed8;background:#eff6ff">+ إضافة مصروف</button>
+    <div class="card" style="border-color:rgba(37,99,235,.12)">
+      <div class="card-head" style="border-bottom-color:rgba(37,99,235,.08);background:rgba(239,246,255,.5)">
+        <div class="card-title" style="color:#1d4ed8">🏠 مصاريف البيت</div>
+        <span class="card-badge" id="house-total-head" style="background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.2);color:#1d4ed8">0 EGP</span>
+      </div>
+      <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
+      <tbody id="house-body"></tbody>
+      <tr class="total-row"><td>الإجمالي</td><td class="computed" id="house-total" style="color:#1d4ed8">0 EGP</td><td></td><td></td></tr></table>
+      <button class="btn-add" onclick="addExpCat('house')" style="border-color:rgba(37,99,235,.2);color:rgba(37,99,235,.6)">+ إضافة مصروف</button>
     </div>
   </div>
 
+  <!-- SUBS -->
   <div class="exp-section" id="sec-subs">
-    <div style="background:linear-gradient(135deg,#11998e,#38ef7d);border-radius:16px;padding:16px 18px;margin-bottom:12px;color:#fff;position:relative;overflow:hidden">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div><div style="font-size:9px;color:rgba(255,255,255,.65);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px">إجمالي الاشتراكات</div><div style="font-size:20px;font-weight:900;direction:ltr" id="subs-total-egp">0 EGP</div></div>
-        <div style="text-align:left"><div style="font-size:9px;color:rgba(255,255,255,.65);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px">بالدولار</div><div style="font-size:15px;font-weight:900;direction:ltr" id="subs-total-usd">0 $</div></div>
+    <div class="subs-hero">
+      <div class="subs-top">
+        <div class="subs-col"><div class="lbl">إجمالي الاشتراكات</div><div class="val" id="subs-total-egp">0 EGP</div></div>
+        <div class="subs-col" style="text-align:left"><div class="lbl">بالدولار</div><div class="val sm" id="subs-total-usd">0 $</div></div>
       </div>
     </div>
-    <div class="card" style="border-color:#d1fae5"><div class="card-head" style="border-bottom-color:#d1fae5;background:linear-gradient(135deg,rgba(17,153,142,.06),rgba(56,239,125,.04))">
-      <div class="card-title" style="color:#065f46">📱 اشتراكاتي</div>
-      <span class="card-badge" id="subs-head" style="background:#d1fae5;color:#065f46">0 EGP</span>
-    </div>
-    <table style="width:100%;border-collapse:collapse;table-layout:fixed">
-      <thead><tr>
-        <th style="width:35%;font-size:10px;color:#6ee7b7;font-weight:700;padding:9px 10px;text-align:right;border-bottom:1px solid #d1fae5">الاشتراك</th>
-        <th style="width:20%;font-size:10px;color:#6ee7b7;font-weight:700;padding:9px 10px;border-bottom:1px solid #d1fae5;direction:ltr;text-align:left">$ دولار</th>
-        <th style="width:25%;font-size:10px;color:#6ee7b7;font-weight:700;padding:9px 10px;border-bottom:1px solid #d1fae5;direction:ltr;text-align:left">EGP جنيه</th>
-        <th style="width:12%;font-size:10px;color:#6ee7b7;font-weight:700;padding:9px 10px;border-bottom:1px solid #d1fae5;text-align:center">دُفع</th>
-        <th style="width:8%;border-bottom:1px solid #d1fae5;padding:0"></th>
-      </tr></thead>
-      <tbody id="subs-body"></tbody>
-      <tr class="total-row">
-        <td>الإجمالي</td>
-        <td style="color:#065f46;font-weight:800;font-size:13px;direction:ltr;text-align:left" id="subs-usd-foot">0 $</td>
-        <td class="computed" id="subs-egp-foot" style="color:#065f46">0 EGP</td>
-        <td></td><td></td>
-      </tr>
-    </table>
-    <button class="btn-add" onclick="addRow('subscriptions')" style="border-color:#6ee7b7;color:#065f46;background:#f0fdf4">+ إضافة اشتراك</button>
+    <div class="card" style="border-color:rgba(4,120,87,.12)">
+      <div class="card-head" style="border-bottom-color:rgba(4,120,87,.08);background:rgba(240,253,244,.5)">
+        <div class="card-title" style="color:#047857">📱 اشتراكاتي</div>
+        <span class="card-badge" id="subs-head" style="background:rgba(4,120,87,.08);border-color:rgba(4,120,87,.2);color:#047857">0 EGP</span>
+      </div>
+      <table class="subs-table">
+        <thead><tr>
+          <th style="font-size:10px;color:var(--textd);font-weight:700;padding:9px 10px;text-align:right;border-bottom:1px solid rgba(4,120,87,.08)">الاشتراك</th>
+          <th style="font-size:10px;color:var(--textd);font-weight:700;padding:9px 10px;border-bottom:1px solid rgba(4,120,87,.08);direction:ltr;text-align:left">$ دولار</th>
+          <th style="font-size:10px;color:var(--textd);font-weight:700;padding:9px 10px;border-bottom:1px solid rgba(4,120,87,.08);direction:ltr;text-align:left">EGP جنيه</th>
+          <th style="font-size:10px;color:var(--textd);font-weight:700;padding:9px 10px;border-bottom:1px solid rgba(4,120,87,.08);text-align:center">دُفع</th>
+          <th style="border-bottom:1px solid rgba(4,120,87,.08);padding:0"></th>
+        </tr></thead>
+        <tbody id="subs-body"></tbody>
+        <tr class="total-row">
+          <td>الإجمالي</td>
+          <td style="color:#047857;font-weight:800;font-size:13px;direction:ltr;text-align:left" id="subs-usd-foot">0 $</td>
+          <td class="computed" id="subs-egp-foot" style="color:#047857">0 EGP</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+      <button class="btn-add" onclick="addRow('subscriptions')" style="border-color:rgba(4,120,87,.2);color:rgba(4,120,87,.6)">+ إضافة اشتراك</button>
     </div>
   </div>
 
+  <!-- EXTRA -->
   <div class="exp-section" id="sec-extra">
-    <div class="card" style="border-color:#fca5a5"><div class="card-head" style="border-bottom-color:#fca5a5;background:linear-gradient(135deg,rgba(248,80,50,.06),rgba(231,56,39,.04))">
-      <div class="card-title" style="color:#e24b4a">⚡ زيادة عن الشهر</div>
-      <span class="card-badge" id="extra-total-head" style="background:#fee2e2;color:#991b1b">0 EGP</span>
-    </div>
-    <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
-    <tbody id="extra-body"></tbody>
-    <tr class="total-row"><td>الإجمالي</td><td class="computed" id="extra-total" style="color:#e24b4a">0 EGP</td><td></td><td></td></tr></table>
-    <button class="btn-add" onclick="addExpCat('extra')" style="border-color:#fca5a5;color:#e24b4a;background:#fff5f5">+ إضافة مصروف</button>
+    <div class="card" style="border-color:rgba(185,28,28,.12)">
+      <div class="card-head" style="border-bottom-color:rgba(185,28,28,.08);background:rgba(254,242,242,.5)">
+        <div class="card-title" style="color:#b91c1c">⚡ زيادة عن الشهر</div>
+        <span class="card-badge" id="extra-total-head" style="background:rgba(185,28,28,.08);border-color:rgba(185,28,28,.2);color:#b91c1c">0 EGP</span>
+      </div>
+      <table class="exp-table"><thead><tr><th>البند</th><th>المبلغ</th><th>دُفع منه</th><th>المتبقي</th><th>✓</th><th></th></tr></thead>
+      <tbody id="extra-body"></tbody>
+      <tr class="total-row"><td>الإجمالي</td><td class="computed" id="extra-total" style="color:#b91c1c">0 EGP</td><td></td><td></td></tr></table>
+      <button class="btn-add" onclick="addExpCat('extra')" style="border-color:rgba(185,28,28,.2);color:rgba(185,28,28,.5)">+ إضافة مصروف</button>
     </div>
   </div>
 </div>
 
 <div id="tab-debts" class="page">
   <div class="debt-info"><span style="font-size:16px">ℹ️</span><span>مستحقاتي عند الناس — لا تؤثر على الثروة</span></div>
-  <div class="card" style="border-color:#fdecea"><div class="card-head" style="border-bottom-color:#fdecea">
-    <div class="card-title" style="color:#e24b4a">💸 مستحقاتي</div>
-    <span id="debts-total-head" style="color:#e24b4a;font-weight:800;font-size:13px;direction:ltr">0 EGP</span>
+  <div class="card" style="border-color:rgba(239,68,68,.12)">
+    <div class="card-head" style="border-bottom-color:rgba(239,68,68,.08);background:rgba(254,242,242,.4)">
+      <div class="card-title" style="color:#b91c1c">💸 مستحقاتي</div>
+      <span id="debts-total-head" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#b91c1c;font-weight:800;font-size:12px;direction:ltr;padding:3px 10px;border-radius:12px">0 EGP</span>
+    </div>
+    <table class="debt-table"><thead><tr><th>الشخص</th><th>المبلغ EGP</th><th>استرداد</th><th></th></tr></thead>
+    <tbody id="debts-body"></tbody>
+    <tr class="total-row"><td>المستحق</td><td class="computed" id="debts-total" style="color:#b91c1c">0 EGP</td><td></td><td></td></tr></table>
+    <button class="btn-add" onclick="addRow('debts')" style="border-color:rgba(239,68,68,.2);color:rgba(185,28,28,.5)">+ إضافة</button>
   </div>
-  <table class="debt-table"><thead><tr><th>الشخص</th><th>المبلغ EGP</th><th>استرداد</th><th></th></tr></thead>
-  <tbody id="debts-body"></tbody>
-  <tr class="total-row"><td>المستحق</td><td class="computed" id="debts-total" style="color:#e24b4a">0 EGP</td><td></td><td></td></tr></table>
-  <button class="btn-add" onclick="addRow('debts')" style="border-color:#fca5a5;color:#e24b4a;background:#fff5f5">+ إضافة</button></div>
 </div>
 
 <p class="save-note">البيانات محفوظة ومتزامنة على السحابة ☁️</p>
 
 <script>
-const SB_URL = 'https://cuhljljkrvfrikeummkc.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1aGxqbGprcnZmcmlrZXVtbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMzg3MjAsImV4cCI6MjA5MjcxNDcyMH0.gZIvzTy4_a7WkPzEdh7Ewo4AsW0woiPRRsjgamLs4jU';
-const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=representation'};
+const SB_URL='https://cuhljljkrvfrikeummkc.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1aGxqbGprcnZmcmlrZXVtbWtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMzg3MjAsImV4cCI6MjA5MjcxNDcyMH0.gZIvzTy4_a7WkPzEdh7Ewo4AsW0woiPRRsjgamLs4jU';
+const H={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=representation'};
 
-function toast(msg, type='') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show ' + type;
-  clearTimeout(window._toastTimer);
-  window._toastTimer = setTimeout(() => el.className = 'toast', 3000);
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show '+type;
+  clearTimeout(window._tt);window._tt=setTimeout(()=>el.className='toast',3000);
 }
-
-function setDot(status) {
-  const dot = document.getElementById('sync-dot');
-  dot.className = 'sync-dot ' + (status === 'ok' ? '' : status === 'err' ? 'err' : 'loading');
+function setDot(s){
+  const d=document.getElementById('sync-dot');
+  d.className='sync-dot '+(s==='ok'?'':s==='err'?'err':'loading');
 }
-
-async function sb(method, table, data, id) {
-  let url = `${SB_URL}/rest/v1/${table}`;
-  if (id) url += `?id=eq.${id}`;
-  const opts = { method, headers: H };
-  if (data) opts.body = JSON.stringify(data);
-  const r = await fetch(url, opts);
-  if (!r.ok) {
-    const err = await r.text();
-    throw new Error(`${r.status}: ${err}`);
-  }
-  if (method === 'DELETE' || method === 'PATCH') return true;
+async function sb(method,table,data,id){
+  let url=`${SB_URL}/rest/v1/${table}`;if(id)url+=`?id=eq.${id}`;
+  const o={method,headers:H};if(data)o.body=JSON.stringify(data);
+  const r=await fetch(url,o);
+  if(!r.ok){const e=await r.text();throw new Error(`${r.status}: ${e}`);}
+  if(method==='DELETE'||method==='PATCH')return true;
   return r.json();
 }
-
-async function sbGet(table) {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}?select=*&order=id`, {headers: H});
-  if (!r.ok) throw new Error(await r.text());
+async function sbGet(t){
+  const r=await fetch(`${SB_URL}/rest/v1/${t}?select=*&order=id`,{headers:H});
+  if(!r.ok)throw new Error(await r.text());
   return r.json();
 }
-
-async function sbSetting(key, value) {
-  await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}`, {
-    method: 'PATCH', headers: H, body: JSON.stringify({value})
-  });
+async function sbGetSetting(k){
+  const r=await fetch(`${SB_URL}/rest/v1/settings?key=eq.${k}&select=value`,{headers:H});
+  const j=await r.json();return j.length?j[0].value:null;
 }
 
-async function sbGetSetting(key) {
-  const r = await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}&select=value`, {headers: H});
-  const j = await r.json();
-  return j.length ? j[0].value : null;
-}
+let D={banks:[],gold:[],salaries:[],expenses:[],debts:[],subscriptions:[],investments:[]};
+let timers={};
 
-let D = {banks:[], gold:[], salaries:[], expenses:[], debts:[]};
-let timers = {};
-
-async function syncAll() {
+async function syncAll(){
   setDot('loading');
-  try {
-    const [banks, gold, salaries, expenses, debts, rate] = await Promise.all([
-      sbGet('banks'), sbGet('gold'), sbGet('salaries'),
-      sbGet('expenses'), sbGet('debts'), sbGetSetting('dollar_rate')
+  try{
+    const [banks,gold,salaries,expenses,debts,subscriptions,investments,rate]=await Promise.all([
+      sbGet('banks'),sbGet('gold'),sbGet('salaries'),
+      sbGet('expenses'),sbGet('debts'),sbGet('subscriptions'),sbGet('investments'),sbGetSetting('dollar_rate')
     ]);
-    D = {banks, gold, salaries, expenses, debts};
-    if (rate) document.getElementById('dollarRate').value = rate;
-    renderAll();
-    setDot('ok');
-    toast('تمت المزامنة ✓', 'ok');
-  } catch(e) {
-    setDot('err');
-    toast('خطأ: ' + e.message, 'err');
-    console.error('Sync error:', e);
-  }
+    D={banks,gold,salaries,expenses,debts,subscriptions,investments};
+    if(rate)document.getElementById('dollarRate').value=rate;
+    renderAll();setDot('ok');toast('تمت المزامنة ✓','ok');
+  }catch(e){setDot('err');toast('خطأ: '+e.message,'err');}
 }
 
 let rateTimer;
-async function saveRate() {
+async function saveRate(){
   clearTimeout(rateTimer);
-  rateTimer = setTimeout(async () => {
-    try {
-      const val = document.getElementById('dollarRate').value;
-      // Use PATCH only (record already exists from SQL setup)
-      await fetch(`${SB_URL}/rest/v1/settings?key=eq.dollar_rate`, {
-        method: 'PATCH',
-        headers: H,
-        body: JSON.stringify({value: val})
-      });
-    } catch(e) { console.error('Rate save error:', e); }
-  }, 800);
+  rateTimer=setTimeout(async()=>{
+    try{await fetch(`${SB_URL}/rest/v1/settings?key=eq.dollar_rate`,
+      {method:'PATCH',headers:H,body:JSON.stringify({value:document.getElementById('dollarRate').value})});}
+    catch(e){console.error(e);}
+  },800);
 }
 
-async function addRow(t) {
+async function addRow(t){
   setDot('loading');
-  try {
-    const defaults = {
-      banks: {name:'بنك جديد', usd:0, egp:0},
-      gold: {name:'ذهب', weight:0, price:0},
-      salaries: {name:'شركة', usd:0},
-      expenses: {name:'مصروف', amount:0, paid:false, paid_amount:0, category:'house'},
-      debts: {name:'شخص', amount:0, paid:false},
-      subscriptions: {name:'اشتراك جديد', usd:0, paid:false}
+  try{
+    const defs={
+      banks:{name:'بنك جديد',usd:0,egp:0},
+      gold:{name:'ذهب',weight:0,price:0},
+      salaries:{name:'شركة',usd:0},
+      expenses:{name:'مصروف',amount:0,paid:false,paid_amount:0,category:'house'},
+      debts:{name:'شخص',amount:0,paid:false},
+      subscriptions:{name:'اشتراك جديد',usd:0,paid:false},
+      subscriptions:{name:'اشتراك جديد',usd:0,paid:false},
+      investments:{name:'استثمار جديد',property_name:'',total_price:0,down_payment:0,monthly_installment:0,quarterly_installment:0,duration_months:0,start_date:'',has_partner:false,partner_name:'',partner_pct:50,down_payer:'split'}
     };
-    const rows = await sb('POST', t, defaults[t]);
-    const row = Array.isArray(rows) ? rows[0] : rows;
-    if (row && row.id) { D[t].push(row); renderAll(); }
+    const rows=await sb('POST',t,defs[t]);
+    const row=Array.isArray(rows)?rows[0]:rows;
+    if(row&&row.id){D[t].push(row);renderAll();}
     setDot('ok');
-  } catch(e) {
-    setDot('err');
-    toast('فشل الإضافة: ' + e.message, 'err');
-    console.error('Add error:', e);
-  }
+  }catch(e){setDot('err');toast('فشل الإضافة: '+e.message,'err');}
 }
 
-async function delRow(t, id) {
+async function delRow(t,id){
   setDot('loading');
-  try {
-    await sb('DELETE', t, null, id);
-    D[t] = D[t].filter(r => r.id !== id);
-    renderAll();
-    setDot('ok');
-  } catch(e) {
-    setDot('err');
-    toast('فشل الحذف: ' + e.message, 'err');
-    console.error('Delete error:', e);
-  }
+  try{
+    await sb('DELETE',t,null,id);
+    D[t]=D[t].filter(r=>r.id!==id);renderAll();setDot('ok');
+  }catch(e){setDot('err');toast('فشل الحذف: '+e.message,'err');}
 }
 
-function scheduleUpdate(t, id, data) {
-  const key = t + id;
-  clearTimeout(timers[key]);
-  timers[key] = setTimeout(async () => {
+function scheduleUpdate(t,id,data){
+  const k=t+id;clearTimeout(timers[k]);
+  timers[k]=setTimeout(async()=>{
     setDot('loading');
-    try {
-      await sb('PATCH', t, data, id);
-      setDot('ok');
-    } catch(e) {
-      setDot('err');
-      toast('فشل الحفظ: ' + e.message, 'err');
-      console.error('Update error:', t, id, data, e);
-    }
-  }, 600);
+    try{await sb('PATCH',t,data,id);setDot('ok');}
+    catch(e){setDot('err');toast('فشل الحفظ: '+e.message,'err');}
+  },600);
 }
 
-function fmt(n) { return (+n||0).toLocaleString('en-US',{maximumFractionDigits:0})+' EGP'; }
-function fmtU(n) { return (+n||0).toLocaleString('en-US',{maximumFractionDigits:0})+' $'; }
-function getR() { return parseFloat(document.getElementById('dollarRate').value)||53.09; }
+function fmt(n){return(+n||0).toLocaleString('en-US',{maximumFractionDigits:0})+' EGP';}
+function fmtU(n){return(+n||0).toLocaleString('en-US',{maximumFractionDigits:0})+' $';}
+function getR(){return parseFloat(document.getElementById('dollarRate').value)||53.09;}
 
-function showTab(name, el) {
+function showTab(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
   el.classList.add('active');
 }
 
-function rBanks() {
-  const rate=getR(), tb=document.getElementById('banks-body'); tb.innerHTML='';
+function rBanks(){
+  const rate=getR(),tb=document.getElementById('banks-body');tb.innerHTML='';
   let tot=0;
-  D.banks.forEach(r => {
-    const v=(+r.usd*rate)+(+r.egp); tot+=v;
+  D.banks.forEach(r=>{
+    const v=(+r.usd*rate)+(+r.egp);tot+=v;
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><input class="inp" value="${r.name||''}" onchange="D.banks.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('banks','${r.id}',{name:this.value})"></td>
-      <td><input class="inp" type="number" value="${+r.usd||0}" onchange="D.banks.find(x=>x.id==='${r.id}').usd=+this.value;scheduleUpdate('banks','${r.id}',{usd:+this.value});renderAll()" style="color:#d97706;font-weight:700"></td>
+      <td><input class="inp" type="number" value="${+r.usd||0}" onchange="D.banks.find(x=>x.id==='${r.id}').usd=+this.value;scheduleUpdate('banks','${r.id}',{usd:+this.value});renderAll()" style="color:#b45309;font-weight:700"></td>
       <td><input class="inp" type="number" value="${+r.egp||0}" onchange="D.banks.find(x=>x.id==='${r.id}').egp=+this.value;scheduleUpdate('banks','${r.id}',{egp:+this.value});renderAll()"></td>
       <td class="computed">${fmt(v)}</td>
       <td><button class="del-btn" onclick="delRow('banks','${r.id}')">×</button></td>`;
@@ -458,11 +685,11 @@ function rBanks() {
   return tot;
 }
 
-function rGold() {
-  const tb=document.getElementById('gold-body'); tb.innerHTML='';
+function rGold(){
+  const tb=document.getElementById('gold-body');tb.innerHTML='';
   let tot=0;
-  D.gold.forEach(r => {
-    const v=(+r.weight)*(+r.price); tot+=v;
+  D.gold.forEach(r=>{
+    const v=(+r.weight)*(+r.price);tot+=v;
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><input class="inp" value="${r.name||''}" onchange="D.gold.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('gold','${r.id}',{name:this.value})"></td>
@@ -477,15 +704,15 @@ function rGold() {
   return tot;
 }
 
-function rSal() {
-  const rate=getR(), tb=document.getElementById('salaries-body'); tb.innerHTML='';
-  let tEGP=0, tUSD=0;
-  D.salaries.forEach(r => {
-    const v=(+r.usd)*rate; tEGP+=v; tUSD+=(+r.usd);
+function rSal(){
+  const rate=getR(),tb=document.getElementById('salaries-body');tb.innerHTML='';
+  let tEGP=0,tUSD=0;
+  D.salaries.forEach(r=>{
+    const v=(+r.usd)*rate;tEGP+=v;tUSD+=(+r.usd);
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><input class="inp" value="${r.name||''}" onchange="D.salaries.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('salaries','${r.id}',{name:this.value})"></td>
-      <td><input class="inp" type="number" value="${+r.usd||0}" onchange="D.salaries.find(x=>x.id==='${r.id}').usd=+this.value;scheduleUpdate('salaries','${r.id}',{usd:+this.value});renderAll()" style="color:#d97706;font-weight:700"></td>
+      <td><input class="inp" type="number" value="${+r.usd||0}" onchange="D.salaries.find(x=>x.id==='${r.id}').usd=+this.value;scheduleUpdate('salaries','${r.id}',{usd:+this.value});renderAll()" style="color:#b45309;font-weight:700"></td>
       <td class="computed">${fmt(v)}</td>
       <td><button class="del-btn" onclick="delRow('salaries','${r.id}')">×</button></td>`;
     tb.appendChild(tr);
@@ -495,75 +722,75 @@ function rSal() {
   document.getElementById('salaries-total-head').textContent=fmtU(tUSD);
 }
 
-function makeExpRow(r, color) {
-  const amount=+r.amount||0, paidAmount=+r.paid_amount||0;
-  const remaining=amount-paidAmount;
-  const fullyPaid=r.paid||(paidAmount>=amount&&amount>0);
-  const tr=document.createElement('tr');
-  if(fullyPaid) tr.classList.add('paid-row');
-  tr.innerHTML=`
-    <td><input class="inp" value="${r.name||''}" onchange="D.expenses.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('expenses','${r.id}',{name:this.value})"></td>
-    <td><input class="inp" type="number" value="${amount}" onchange="D.expenses.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('expenses','${r.id}',{amount:+this.value});renderAll()"></td>
-    <td><input class="inp" type="number" value="${paidAmount}" placeholder="0" onchange="let v=+this.value;D.expenses.find(x=>x.id==='${r.id}').paid_amount=v;scheduleUpdate('expenses','${r.id}',{paid_amount:v});renderAll()" style="color:${color};font-weight:700"></td>
-    <td class="computed" style="color:${remaining<=0?'#34c759':'#7c5cbf'}">${fmt(Math.max(0,remaining))}</td>
-    <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="let row=D.expenses.find(x=>x.id==='${r.id}');row.paid=this.checked;row.paid_amount=this.checked?${amount}:0;scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:${color}"></td>
-    <td style="text-align:center"><button class="del-btn" onclick="delRow('expenses','${r.id}')">×</button></td>`;
-  return tr;
-}
-
-function showCat(cat, el) {
+function showCat(cat,el){
   document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.exp-section').forEach(s=>s.classList.remove('show'));
   el.classList.add('active');
   document.getElementById('sec-'+cat).classList.add('show');
 }
 
-async function addExpCat(cat) {
+async function addExpCat(cat){
   setDot('loading');
-  try {
-    const rows = await sb('POST', 'expenses', {name: cat==='house'?'مصروف بيت':'مصروف إضافي', amount:0, paid:false, paid_amount:0, category:cat});
-    const row = Array.isArray(rows)?rows[0]:rows;
+  try{
+    const rows=await sb('POST','expenses',{name:cat==='house'?'مصروف بيت':'مصروف إضافي',amount:0,paid:false,paid_amount:0,category:cat});
+    const row=Array.isArray(rows)?rows[0]:rows;
     if(row&&row.id){D.expenses.push(row);renderAll();}
     setDot('ok');
-  } catch(e){setDot('err');toast('فشل الإضافة: '+e.message,'err');}
+  }catch(e){setDot('err');toast('فشل الإضافة: '+e.message,'err');}
 }
 
-function rExp() {
+function makeExpRow(r,accentColor){
+  const amount=+r.amount||0,paidAmount=+r.paid_amount||0;
+  const remaining=amount-paidAmount;
+  const fullyPaid=r.paid||(paidAmount>=amount&&amount>0);
+  const tr=document.createElement('tr');
+  if(fullyPaid)tr.classList.add('paid-row');
+  tr.innerHTML=`
+    <td><input class="inp" value="${r.name||''}" onchange="D.expenses.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('expenses','${r.id}',{name:this.value})"></td>
+    <td><input class="inp" type="number" value="${amount}" onchange="D.expenses.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('expenses','${r.id}',{amount:+this.value});renderAll()"></td>
+    <td><input class="inp" type="number" value="${paidAmount}" placeholder="0" onchange="let v=+this.value;D.expenses.find(x=>x.id==='${r.id}').paid_amount=v;scheduleUpdate('expenses','${r.id}',{paid_amount:v});renderAll()" style="color:${accentColor};font-weight:700"></td>
+    <td class="computed" style="color:${remaining<=0?'#16a34a':'#0369a1'}">${fmt(Math.max(0,remaining))}</td>
+    <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${fullyPaid?'checked':''} onchange="let row=D.expenses.find(x=>x.id==='${r.id}');row.paid=this.checked;row.paid_amount=this.checked?${amount}:0;scheduleUpdate('expenses','${r.id}',{paid:this.checked,paid_amount:this.checked?${amount}:0});renderAll()" style="accent-color:${accentColor}"></td>
+    <td style="text-align:center"><button class="del-btn" onclick="delRow('expenses','${r.id}')">×</button></td>`;
+  return tr;
+}
+
+function rExp(){
   const tbAll=document.getElementById('expenses-body');
   const tbHouse=document.getElementById('house-body');
   const tbExtra=document.getElementById('extra-body');
   const tbSubs=document.getElementById('subs-body');
   tbAll.innerHTML=''; tbHouse.innerHTML=''; tbExtra.innerHTML=''; tbSubs.innerHTML='';
 
-  let totalAll=0, totalPaid=0, houseTotal=0, extraTotal=0;
+  let totalAll=0,totalPaid=0,houseTotal=0,extraTotal=0;
   const rate=getR();
 
-  D.expenses.forEach(r => {
-    const amount=+r.amount||0, paidAmount=+r.paid_amount||0;
+  D.expenses.forEach(r=>{
+    const amount=+r.amount||0,paidAmount=+r.paid_amount||0;
     totalAll+=amount; totalPaid+=paidAmount;
     const cat=r.category||'house';
-    tbAll.appendChild(makeExpRow(r,'#b91d73'));
-    if(cat==='house'){houseTotal+=amount; tbHouse.appendChild(makeExpRow(r,'#1d4ed8'));}
-    else if(cat==='extra'){extraTotal+=amount; tbExtra.appendChild(makeExpRow(r,'#e24b4a'));}
+    tbAll.appendChild(makeExpRow(r,'#7c3aed'));
+    if(cat==='house'){houseTotal+=amount;tbHouse.appendChild(makeExpRow(r,'#1d4ed8'));}
+    else if(cat==='extra'){extraTotal+=amount;tbExtra.appendChild(makeExpRow(r,'#b91c1c'));}
   });
 
-  let subsUSD=0, subsEGP=0, subsPaid=0;
+  let subsUSD=0,subsEGP=0,subsPaid=0;
   D.subscriptions.forEach(r=>{
-    const usd=+r.usd||0, egp=usd*rate;
+    const usd=+r.usd||0,egp=usd*rate;
     subsUSD+=usd; subsEGP+=egp;
-    if(r.paid) subsPaid+=egp;
+    if(r.paid)subsPaid+=egp;
     const tr=document.createElement('tr');
-    if(r.paid) tr.classList.add('paid-row');
+    if(r.paid)tr.classList.add('paid-row');
     tr.innerHTML=`
       <td><input class="inp" value="${r.name||''}" onchange="D.subscriptions.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('subscriptions','${r.id}',{name:this.value})"></td>
-      <td><input class="inp" type="number" value="${usd}" onchange="D.subscriptions.find(x=>x.id==='${r.id}').usd=+this.value;scheduleUpdate('subscriptions','${r.id}',{usd:+this.value});renderAll()" style="color:#d97706;font-weight:700"></td>
-      <td class="computed" style="color:#065f46">${fmt(egp)}</td>
-      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${r.paid?'checked':''} onchange="D.subscriptions.find(x=>x.id==='${r.id}').paid=this.checked;scheduleUpdate('subscriptions','${r.id}',{paid:this.checked});renderAll()" style="accent-color:#065f46"></td>
+      <td><input class="inp" type="number" value="${usd}" onchange="D.subscriptions.find(x=>x.id==='${r.id}').usd=+this.value;scheduleUpdate('subscriptions','${r.id}',{usd:+this.value});renderAll()" style="color:#b45309;font-weight:700"></td>
+      <td class="computed" style="color:#047857">${fmt(egp)}</td>
+      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${r.paid?'checked':''} onchange="D.subscriptions.find(x=>x.id==='${r.id}').paid=this.checked;scheduleUpdate('subscriptions','${r.id}',{paid:this.checked});renderAll()" style="accent-color:#047857"></td>
       <td style="text-align:center"><button class="del-btn" onclick="delRow('subscriptions','${r.id}')">×</button></td>`;
     tbSubs.appendChild(tr);
   });
 
-  const grandTotal=totalAll+subsEGP, grandSpent=totalPaid+subsPaid;
+  const grandTotal=totalAll+subsEGP,grandSpent=totalPaid+subsPaid;
   const grandRem=grandTotal-grandSpent;
   const pct=grandTotal>0?Math.max(0,Math.min(100,Math.round(grandRem/grandTotal*100))):100;
 
@@ -582,22 +809,22 @@ function rExp() {
   document.getElementById('subs-egp-foot').textContent=fmt(subsEGP);
   document.getElementById('subs-head').textContent=fmt(subsEGP);
 
-  const remEl=document.getElementById('exp-remaining');
-  if(grandRem<=0){remEl.textContent='0 EGP';remEl.classList.add('warn');}
-  else{remEl.textContent=fmt(grandRem);remEl.classList.remove('warn');}
+  const re=document.getElementById('exp-remaining');
+  if(grandRem<=0){re.textContent='0 EGP';re.classList.add('warn');}
+  else{re.textContent=fmt(grandRem);re.classList.remove('warn');}
 }
 
-function rDebts() {
-  const tb=document.getElementById('debts-body'); tb.innerHTML='';
+function rDebts(){
+  const tb=document.getElementById('debts-body');tb.innerHTML='';
   let tot=0;
-  D.debts.forEach(r => {
-    if(!r.paid) tot+=(+r.amount);
+  D.debts.forEach(r=>{
+    if(!r.paid)tot+=(+r.amount);
     const tr=document.createElement('tr');
-    if(r.paid) tr.classList.add('paid-row');
+    if(r.paid)tr.classList.add('paid-row');
     tr.innerHTML=`
       <td><input class="inp" value="${r.name||''}" onchange="D.debts.find(x=>x.id==='${r.id}').name=this.value;scheduleUpdate('debts','${r.id}',{name:this.value})"></td>
       <td><input class="inp" type="number" value="${+r.amount||0}" onchange="D.debts.find(x=>x.id==='${r.id}').amount=+this.value;scheduleUpdate('debts','${r.id}',{amount:+this.value});renderAll()"></td>
-      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${r.paid?'checked':''} onchange="D.debts.find(x=>x.id==='${r.id}').paid=this.checked;scheduleUpdate('debts','${r.id}',{paid:this.checked});renderAll()" style="accent-color:#e24b4a"></td>
+      <td class="paid-cell" style="text-align:center"><input type="checkbox" class="paid-check" ${r.paid?'checked':''} onchange="D.debts.find(x=>x.id==='${r.id}').paid=this.checked;scheduleUpdate('debts','${r.id}',{paid:this.checked});renderAll()" style="accent-color:#ef4444"></td>
       <td style="text-align:center"><button class="del-btn" onclick="delRow('debts','${r.id}')">×</button></td>`;
     tb.appendChild(tr);
   });
@@ -606,14 +833,14 @@ function rDebts() {
 }
 
 const DIST=[
-  {lbl:'البنوك',bg:'linear-gradient(90deg,#4776e6,#8e54e9)'},
-  {lbl:'الذهب',bg:'linear-gradient(90deg,#f7971e,#ffd200)'},
+  {lbl:'البنوك',bg:'linear-gradient(90deg,#0ea5e9,#6366f1)'},
+  {lbl:'الذهب',bg:'linear-gradient(90deg,#f59e0b,#fcd34d)'},
 ];
 
-function renderAll() {
-  const banks=rBanks(), gold=rGold();
-  rSal(); rExp(); rDebts();
-  const rate=getR(), net=banks+gold;
+function renderAll(){
+  const banks=rBanks(),gold=rGold();
+  rSal();rExp();rDebts();
+  const rate=getR(),net=banks+gold;
   document.getElementById('grand-total').textContent=fmt(net);
   document.getElementById('rate-tag').textContent='1 USD = '+rate.toFixed(2)+' EGP';
   document.getElementById('sum-banks').textContent=fmt(banks);
@@ -622,12 +849,12 @@ function renderAll() {
   document.getElementById('bar-banks').style.width=Math.min(100,Math.round(banks/mx*100))+'%';
   document.getElementById('bar-gold').style.width=Math.min(100,Math.round(gold/mx*100))+'%';
   document.getElementById('dist-bars').innerHTML=[{v:banks,i:0},{v:gold,i:1}].map(x=>{
-    const pct=Math.min(100,Math.round(x.v/mx*100)); const c=DIST[x.i];
+    const pct=Math.min(100,Math.round(x.v/mx*100));const c=DIST[x.i];
     return `<div class="dist-item"><div class="dist-row"><span class="dist-lbl">${c.lbl}</span><span class="dist-val">${fmt(x.v)} <span class="dist-pct">(${pct}%)</span></span></div><div class="dist-bg"><div class="dist-bar" style="width:${pct}%;background:${c.bg}"></div></div></div>`;
   }).join('');
 }
 
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
 syncAll();
 </script>
 </body>
